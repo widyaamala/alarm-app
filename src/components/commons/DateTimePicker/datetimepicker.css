@@ -1,0 +1,32 @@
+.overlay-picker {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.picker {
+  position: relative;
+  z-index: 100;
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.confirm-picker {
+  display: flex;
+  justify-content: end;
+  margin-top: 10px;
+}
+
+.confirm-picker button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
