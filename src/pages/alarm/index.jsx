@@ -2,48 +2,64 @@ import { useState, useEffect } from "react";
 import {
   Box,
   Button,
-  Flex,
   HStack,
   VStack,
   Switch,
   Text,
-  IconButton,
   Input,
+  Image,
   Collapse,
 } from "@chakra-ui/react";
 import moment from "moment";
-import AddIcon from "@mui/icons-material/Add";
-import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
-import LabelIcon from "@mui/icons-material/Label";
-import DeleteIcon from "@mui/icons-material/Delete";
-import SnoozeIcon from "@mui/icons-material/Snooze";
+import { LabelIcon, DeleteIcon } from "../../assets/icons";
 import { Howl } from "howler";
 
-import DateRangePicker from "../../components/commons/DateTimePicker/DateRangePicker";
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
 import { days } from "../../utils/Constants";
+import ConfirmationModal from "../../components/commons/Modal/ConfirmationModal";
 
 const Index = () => {
+  const excludeElements = ['input', 'button', 'switch', 'label-icon', 'delete-icon'];
   const [collapsedIndex, setCollapsedIndex] = useState(null);
   const [isOpenTime, setIsOpenTime] = useState(false);
   const [currentAlarmTime, setCurrentAlarmTime] = useState(null);
   const [currentAlarmIndex, setCurrentAlarmIndex] = useState(null);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
+  const [indexDataDeleted, setIndexDataDeleted] = useState(null)
   const [dataAlarm, setDataAlarm] = useState(
     JSON.parse(localStorage.getItem("alarm_data")) ?? []
   );
 
   const alarmSound = new Howl({
-    src: ["../../assets/alarm.mp3"],
+    src: ["/alarm.mp3"],
   });
 
   useEffect(() => {
     localStorage.setItem("alarm_data", JSON.stringify(dataAlarm));
   }, [dataAlarm]);
 
-  const handleCollapseAlarm = (indexAlarm) => {
+  const stopPropagation = (handler) => (event) => {
+    event.stopPropagation();
+    handler(event);
+  };
+
+  const handleCollapseAlarm = (event, indexAlarm) => {
+    if (excludeElements.includes(event.target.localName)) {
+      return;
+    }
+
     if (collapsedIndex === indexAlarm) setCollapsedIndex(null);
     else setCollapsedIndex(indexAlarm);
   };
+
+  const handleChangeLabel = (value, index) => {
+    setDataAlarm(
+      dataAlarm.map((alarm, i) => {
+        if (i === index) alarm.label = value;
+        return alarm;
+      })
+    )
+  }
 
   const handleClickDay = (day, index) => {
     setDataAlarm((prevData) =>
@@ -70,7 +86,7 @@ const Index = () => {
     if (currentAlarmIndex === null || currentAlarmIndex === undefined) {
       setDataAlarm([
         ...dataAlarm,
-        { time: time, selectedDays: [], schedules: [], isActive: true },
+        { time: time, selectedDays: [], isActive: true },
       ]);
     } else {
       setDataAlarm(
@@ -83,51 +99,26 @@ const Index = () => {
     setIsOpenTime(false);
   };
 
-  const handleDeleteAlarm = (indexAlarm) => {
+  const showDeleteModal = (index) => {
+    setIsShowDeleteModal(!isShowDeleteModal);
+    setIndexDataDeleted(index)
+  }
+
+  const handleDeleteAlarm = () => {
     let listAlarm = [...dataAlarm];
-    listAlarm.splice(indexAlarm, 1);
+    listAlarm.splice(indexDataDeleted, 1);
     setDataAlarm(listAlarm);
+    showDeleteModal(null)
   };
 
   const handleCancelAlarm = () => {
     setIsOpenTime(false);
   };
 
-  const handleAddSchedules = (schedules, indexAlarm) => {
-    const startDate = new Date(schedules.start_date);
-    const endDate = new Date(schedules.end_date);
-    const daysOfWeek = [];
-
-    for (let day = startDate; day <= endDate; day.setDate(day.getDate() + 1)) {
-      daysOfWeek.push(days.find((d) => d.id === day.getDay()).value);
-    }
-
-    setDataAlarm(
-      dataAlarm.map((item, index) => {
-        if (index === indexAlarm) {
-          item.schedules = schedules;
-          item.selectedDays = [
-            ...new Set([...item.selectedDays, ...daysOfWeek]),
-          ];
-        }
-        return item;
-      })
-    );
-  };
-
   const handleActivateAlarm = (indexAlarm) => {
     setDataAlarm(
       dataAlarm.map((item, index) => {
         if (index === indexAlarm) item.isActive = !item.isActive;
-        return item;
-      })
-    );
-  };
-
-  const handleActivateSnooze = (indexAlarm) => {
-    setDataAlarm(
-      dataAlarm.map((item, index) => {
-        if (index === indexAlarm) item.isSnoozed = !item.isSnoozed;
         return item;
       })
     );
@@ -149,22 +140,13 @@ const Index = () => {
     }
   };
 
-  const isWithinSchedule = (currentDate, schedules) => {
-    if (!schedules || !schedules.start_date || !schedules.end_date) return false;
-    const startDate = new Date(schedules.start_date);
-    const endDate = new Date(schedules.end_date);
-    return currentDate >= startDate && currentDate <= endDate;
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       dataAlarm.forEach((alarm) => {
         if (alarm.isActive) {
           const alarmTime = new Date();
-          const [hours, minutes] = alarm.isSnoozed
-            ? moment(alarm.time).add(alarm.snooze, "minutes").format("HH:mm")?.split(":")
-            : moment(alarm.time).format("HH:mm")?.split(":");
+          const [hours, minutes] = moment(alarm.time).format("HH:mm")?.split(":");
           alarmTime.setHours(hours);
           alarmTime.setMinutes(minutes);
 
@@ -172,24 +154,13 @@ const Index = () => {
             !alarm.selectedDays.length &&
             (alarmTime > now || alarmTime.getDate() === now.getDate() + 1);
 
-          const isScheduled = isWithinSchedule(now, alarm.schedules);
-
           if (
-            (isTodayOrTomorrow || alarm.selectedDays.includes(days[now.getDay()].value) || isScheduled) &&
+            (isTodayOrTomorrow || alarm.selectedDays.includes(days[now.getDay()].value)) &&
             now.getHours() === alarmTime.getHours() &&
             now.getMinutes() === alarmTime.getMinutes()
           ) {
-            alarmSound.play();
-            alert(`Alarm for ${alarm.time} is ringing!`);
-
-            if (alarm.isSnoozed) {
-              setDataAlarm(
-                dataAlarm.map((item) => {
-                  if (item === alarm) item.isSnoozed = false;
-                  return item;
-                })
-              );
-            }
+            alarmSound.play()
+            alert(`Alarm for ${alarm.time} is ringing!`)
           }
         }
       });
@@ -200,56 +171,38 @@ const Index = () => {
 
   return (
     <>
-      <VStack w="100%" mb="4.5rem">
+      <VStack w="100%" mb="5rem" mt="3">
         {dataAlarm?.map((item, index) => (
           <Box
+            key={index}
             w="100%"
             bg="#fff"
             pt="2"
             pb="4"
             px="4"
-            borderRadius="20px"
-            key={index}
+            my="1"
+            borderRadius="12px"
+            sx={{ boxShadow: '0px 8px 20px -4px #1C37BE1A' }}
+            onClick={(e) => handleCollapseAlarm(e, index)}
           >
-            <HStack justifyContent="space-between">
-              <Text
-                fontSize="2.5rem"
-                textStyle="semi"
-                onClick={() => handleTimeClick(item.time, index)}
-              >
-                {moment(item?.time)?.format("HH:mm")}
-              </Text>
-              <Button
-                onClick={() => handleCollapseAlarm(index)}
-                as={IconButton}
-                icon={
-                  <ExpandCircleDownIcon
-                    fontSize="small"
-                    sx={{
-                      transform:
-                        collapsedIndex === index
-                          ? "rotate(180deg)"
-                          : "rotate(0deg)",
-                    }}
-                  />
-                }
-                variant="unstyled"
-                w="auto"
-                h="24px"
-                color="#252526"
-                mr="-10px"
-                _focus={{ background: "none" }}
-              />
-            </HStack>
-            <HStack justify="space-between" alignItems="center">
-              <Text textStyle="xsmall">
-                {getDayLabel(item?.time, item?.selectedDays)}
-              </Text>
+            <HStack justifyContent="space-between" alignItems="center">
+              <VStack alignItems="start" gap="0">
+                <Text
+                  fontSize="2rem"
+                  textStyle="semi"
+                  onClick={stopPropagation(() => handleTimeClick(item.time, index))}
+                >
+                  {moment(item?.time)?.format("HH:mm")}
+                </Text>
+                <Text textStyle="xsmall">
+                  {getDayLabel(item?.time, item?.selectedDays)}
+                </Text>
+              </VStack>
               <Switch
                 id="alarm-activated"
                 mt="2"
                 isChecked={item.isActive}
-                onChange={() => handleActivateAlarm(index)}
+                onChange={stopPropagation(() => handleActivateAlarm(index))}
               />
             </HStack>
             <Collapse in={collapsedIndex === index} animateOpacity>
@@ -260,95 +213,38 @@ const Index = () => {
                       key={day.value}
                       variant={
                         item?.selectedDays?.includes(day.value)
-                          ? "solid"
-                          : "outline"
+                          ? "solidnavy"
+                          : "outlinenavy"
                       }
-                      colorScheme="blackAlpha"
-                      rounded="full"
+                      borderRadius="100%"
                       w="30px"
                       minW="30px"
                       h="30px"
-                      p="2"
+                      px="0"
                       fontSize="14px"
-                      onClick={() => handleClickDay(day, index)}
+                      onClick={stopPropagation(() => handleClickDay(day, index))}
                     >
                       {day.label}
                     </Button>
                   ))}
                 </HStack>
-                <DateRangePicker
-                  value={{
-                    startDate: item?.schedules?.start_date
-                      ? new Date(item?.schedules?.start_date)
-                      : new Date(),
-                    endDate: item?.schedules?.end_date
-                      ? new Date(item?.schedules?.end_date)
-                      : new Date(),
-                  }}
-                  handleChange={(start, end) =>
-                    handleAddSchedules(
-                      { start_date: start, end_date: end },
-                      index
-                    )
-                  }
-                />
               </HStack>
               <HStack alignItems="center" my="3">
-                <LabelIcon fontSize="small" />
+                <Image src={LabelIcon} w="1em" h="1em" />
                 <Input
                   placeholder="Add Label"
                   variant="unstyled"
                   fontSize="0.85rem"
                   value={item?.label}
-                  onChange={(e) => {
-                    setDataAlarm(
-                      dataAlarm.map((alarm, i) => {
-                        if (i === index) alarm.label = e?.target?.value;
-                        return alarm;
-                      })
-                    );
-                  }}
-                />
-              </HStack>
-              <HStack alignItems="start" my="3">
-                <SnoozeIcon fontSize="small" />
-                {item.isSnoozed ? (
-                  <VStack align="start" gap="0">
-                    <Input
-                      placeholder="Snooze"
-                      type="number"
-                      min="0"
-                      variant="unstyled"
-                      fontSize="0.85rem"
-                      value={item?.snooze}
-                      onChange={(e) => {
-                        setDataAlarm(
-                          dataAlarm.map((alarm, i) => {
-                            if (i === index) alarm.snooze = e?.target?.value;
-                            return alarm;
-                          })
-                        );
-                      }}
-                    />
-                    <Text fontSize="0.6rem">Minutes</Text>
-                  </VStack>
-                ) : (
-                  <Text fontSize="0.85rem">Snooze</Text>
-                )}
-                <Switch
-                  id="snooze"
-                  ml="auto"
-                  size="sm"
-                  isChecked={item.isSnoozed}
-                  onChange={() => handleActivateSnooze(index)}
+                  onChange={stopPropagation((e) => handleChangeLabel(e?.target?.value, index))}
                 />
               </HStack>
               <HStack
                 alignItems="center"
                 my="3"
-                onClick={() => handleDeleteAlarm(index)}
+                onClick={stopPropagation(() => showDeleteModal(index))}
               >
-                <DeleteIcon fontSize="small" />
+                <Image src={DeleteIcon} w="1em" h="1em" />
                 <Text fontSize="0.85rem">Delete</Text>
               </HStack>
             </Collapse>
@@ -357,26 +253,26 @@ const Index = () => {
       </VStack>
       <HStack
         justifyContent="center"
-        bottom="50px"
+        bottom="80px"
         position="fixed"
         zIndex="99"
       >
         <Button
           variant="solid"
           rounded="full"
-          background="#252526"
+          background="#272c6f"
+          color="white"
           w="60px"
           h="60px"
-          _focus={{ background: "#252526" }}
+          fontSize="30px"
+          _focus={{ background: "#272c6f" }}
           onClick={() => {
             setCurrentAlarmIndex(null);
             setCurrentAlarmTime(null);
             setIsOpenTime(!isOpenTime);
           }}
         >
-          <Flex m="auto" color="white">
-            <AddIcon />
-          </Flex>
+          +
         </Button>
       </HStack>
       {isOpenTime && (
@@ -386,6 +282,13 @@ const Index = () => {
           toggle={handleCancelAlarm}
         />
       )}
+      <ConfirmationModal
+        isOpen={isShowDeleteModal} 
+        toggle={() => showDeleteModal(null)} 
+        confirm={handleDeleteAlarm} 
+        message="Are you sure you want to delete this alarm?"
+        titleConfirm="Delete"
+      />
     </>
   );
 };

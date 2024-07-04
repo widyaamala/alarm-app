@@ -4,7 +4,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import moment from "moment";
 import "./datetimepicker.css"
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { CalendarMonthIcon } from "../../../assets/icons";
 
 const DateRangePicker = ({
   value,
@@ -51,7 +51,7 @@ const DateRangePicker = ({
   return (
     <>
       <div onClick={() => onToggle()}>
-        <CalendarMonthIcon fontSize="small" />
+        <image src={CalendarMonthIcon} />
       </div>
       {isOpen && (
         <div className="overlay-picker">
