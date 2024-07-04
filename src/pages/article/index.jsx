@@ -63,7 +63,7 @@ const Index = () => {
               w="100%"
               gap="3"
               key={index}
-              my="3"
+              my="5"
               onClick={() => navigate(`/article/${item.title}`)}
             >
               <Box w="35%" h="85px" position="relative">
@@ -89,7 +89,7 @@ const Index = () => {
                 </Badge>
               </Box>
               <VStack h="100%" alignItems="start" w="65%">
-                <Text textStyle="semi" fontSize="14px">
+                <Text textStyle="semi" fontSize="14px" noOfLines={3}>
                   {item.title}
                 </Text>
                 <Text

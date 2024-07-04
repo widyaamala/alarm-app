@@ -3,8 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   Badge,
   Box,
-  Button,
-  Flex,
   Image,
   VStack,
   Text,
@@ -12,7 +10,7 @@ import {
   SkeletonText,
 } from "@chakra-ui/react";
 import { Markup } from "interweave";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ArrowBackIcon } from "../../assets/icons";
 import useQueryFetch from "../../services/queries";
 import moment from "moment";
 
@@ -35,22 +33,17 @@ const DetailArticle = () => {
         </VStack>
       ) : (
         <>
-          <Button
+          <Image
             onClick={() => navigate("/article")}
-            minW="0"
+            src={ArrowBackIcon}
             w="30px"
             h="30px"
-            bg="#252526"
+            p="10px"
+            bg="#272c6f"
             rounded="full"
             position="sticky"
             zIndex="99"
-            top="0"
-            _focus={{ background: "#252526" }}
-          >
-            <Flex m="auto" color="white">
-              <ArrowBackIcon sx={{ fontSize: "14px" }} />
-            </Flex>
-          </Button>
+          />
           <VStack gap="0" align="start" mt="4">
             <Box position="relative">
               <Image

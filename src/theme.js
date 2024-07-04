@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react"
+import { baseTheme, extendTheme } from "@chakra-ui/react"
 import '@fontsource/open-sans'
 
 const theme = extendTheme({
@@ -35,28 +35,63 @@ const theme = extendTheme({
   components: {
     Button: {
       baseStyle: {
+        background: '#272c6f',
+        color: 'white',
+        borderRadius: '20px',
+        fontWeight: '500',
+        height: 'auto',
+        width: '100px',
+        padding: '10px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        _focus: {
-          outline: 0,
-        },
-        _hover: {
-          border: "none",
+        _disabled: {
+          background: '#b6b9d2',
+          color: '#ecedf78f',
         },
       },
+      variants: { 
+        solidnavy : {
+          background: '#484c86',
+          color: 'white',
+          _focus: {
+            outline: 0,
+            background: '#484c86',
+            color: 'white',
+          },
+          _hover: {
+            border: "none",
+            background: '#484c86',
+            color: 'white',
+          },
+        },
+        outlinenavy : {
+          border: '1px solid #484c86',
+          background: 'transparent',
+          color: '#484c86',
+        },
+      }
+    },
+    Input: {
+      baseStyle : {
+        field: {
+          fontSize: '14px',
+          fontWeight: 500,
+          height: "50px",
+        }
+      }
     },
     Menu: {
       baseStyle: {
         item: {
           _hover: {
             color: 'white',
-            bg: "#252526",
+            bg: "#272c6f",
             borderColor: "inherit",
           },
           _focus: {
             color: 'white',
-            bg: "#252526",
+            bg: "#272c6f",
             boxShadow: "none",
           },
         },
@@ -70,14 +105,14 @@ const theme = extendTheme({
             py: '3',
             border: 'none',
             _selected: {
-              color: '#252526',
+              color: '#484c86',
               borderRadius: 0,
-              borderBottom: '3px solid #252526' 
+              borderBottom: '3px solid #484c86' 
             },
             _hover: {
-              color: '#252526',
+              color: '#484c86',
               borderRadius: 0,
-              borderBottom: '3px solid #252526' 
+              borderBottom: '3px solid #484c86' 
             },
             _focus: {
               outline: 0,
@@ -86,20 +121,26 @@ const theme = extendTheme({
         },
       }
     },
-    Button: {
+    Switch: {
       baseStyle: {
-        fontWeight: 600,
-        fontWeight:'14px',
-        height: '40px',
-        width: '80px',
-        _focus: {
-          outline: 0,
+        track: {
+          bg: '#b6b9d2',
+          _checked: {
+            bg: '#484c86',
+          },
         },
-        _hover: {
-          border: "none",
-        },
-      },
+      }
     },
+    Slider: {
+      baseStyle: {
+        thumb: {
+          bg: '#636899'
+        },
+        filledTrack: {
+          bg: '#636899'
+        }
+      }
+    }
   },
 })
 
