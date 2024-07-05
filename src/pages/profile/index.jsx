@@ -15,13 +15,13 @@ const Index = () => {
 
   return (
     <VStack w="100%" my="5" px="5">
-      <Avatar bg="#272c6f" size="lg" mb="5" />
+      <Avatar bg="primary" size="lg" mb="5" />
       <HStack my="2" w="100%" justifyContent="start">
         <Box
           rounded="full"
           w="36px"
           h="36px"
-          bg="#b6b9d26b"
+          bg="base"
           p="8px"
         >
           <Image w="100%" h="100%" src={BadgeIcon} />
@@ -39,7 +39,7 @@ const Index = () => {
           rounded="full"
           w="36px"
           h="36px"
-          bg="#b6b9d26b"
+          bg="base"
           p="8px"
         >
           <Image w="100%" h="100%" src={EmailIcon} />
@@ -57,7 +57,7 @@ const Index = () => {
           rounded="full"
           w="36px"
           h="36px"
-          bg="#b6b9d26b"
+          bg="base"
           p="8px"
         >
           <Image w="100%" h="100%" src={ContactPhoneIcon} />
@@ -75,8 +75,8 @@ const Index = () => {
           textStyle="semi"
           fontSize="14px"
           border="1px"
-          borderColor="#C53030"
-          color="#C53030"
+          borderColor="danger"
+          color="danger"
           bg="white"
           w="50%"
           onClick={() => logout.mutate()}

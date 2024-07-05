@@ -32,10 +32,22 @@ const theme = extendTheme({
       fontSize: '12px',
     },
   },
+  colors: {
+    main: '#212121',
+    primary: '#272c6f',
+    secondary: '#484c86',
+    tertiary: '#636899',
+    base: '#b6b9d26b',
+    mutedBase: '#b6b9d236',
+    layout: '#ecedf78f',
+    muted: '#b6b9d2',
+    success: '#1CB289',
+    danger: '#C53030'
+  },
   components: {
     Button: {
       baseStyle: {
-        background: '#272c6f',
+        background: 'primary',
         color: 'white',
         borderRadius: '20px',
         fontWeight: '500',
@@ -46,29 +58,30 @@ const theme = extendTheme({
         alignItems: 'center',
         justifyContent: 'center',
         _disabled: {
-          background: '#b6b9d2',
-          color: '#ecedf78f',
+          background: 'muted',
+          color: 'tertiary',
         },
       },
       variants: { 
-        solidnavy : {
-          background: '#b6b9d26b',
-          color: '#272C6F',
+        solidPrimary : {
+          background: 'base',
+          color: 'primary',
           _focus: {
             outline: 0,
-            background: '#b6b9d26b',
-            color: '#272C6F',
+            background: 'base',
+            color: 'primary',
           },
           _hover: {
             border: "none",
-            background: '#b6b9d26b',
-            color: '#272C6F',
+            background: 'base',
+            color: 'primary',
           },
         },
-        outlinenavy : {
-          border: '1px solid #484c86',
+        outlinePrimary : {
+          border: '1px',
+          borderColor: 'secondary',
           background: 'transparent',
-          color: '#484c86',
+          color: 'secondary',
         },
       }
     },
@@ -86,12 +99,12 @@ const theme = extendTheme({
         item: {
           _hover: {
             color: 'white',
-            bg: "#272c6f",
+            bg: "primary",
             borderColor: "inherit",
           },
           _focus: {
             color: 'white',
-            bg: "#272c6f",
+            bg: "primary",
             boxShadow: "none",
           },
         },
@@ -105,14 +118,16 @@ const theme = extendTheme({
             py: '3',
             border: 'none',
             _selected: {
-              color: '#484c86',
+              color: 'secondary',
               borderRadius: 0,
-              borderBottom: '3px solid #484c86' 
+              borderBottom: '3px',
+              borderColor: 'secondary'
             },
             _hover: {
-              color: '#484c86',
+              color: 'secondary',
               borderRadius: 0,
-              borderBottom: '3px solid #484c86' 
+              borderBottom: '3px',
+              borderColor: 'secondary'
             },
             _focus: {
               outline: 0,
@@ -124,9 +139,9 @@ const theme = extendTheme({
     Switch: {
       baseStyle: {
         track: {
-          bg: '#636899',
+          bg: 'tertiary',
           _checked: {
-            bg: '#636899',
+            bg: 'tertiary',
           },
         },
       }
@@ -134,10 +149,10 @@ const theme = extendTheme({
     Slider: {
       baseStyle: {
         thumb: {
-          bg: '#636899'
+          bg: 'tertiary'
         },
         filledTrack: {
-          bg: '#636899'
+          bg: 'tertiary'
         }
       }
     }

@@ -49,7 +49,7 @@ const Login = () => {
 
   return (
     <>
-      <VStack justify='center' alignItems='center' w='100vw' h='100vh' bg='#ecedf78f' px="10">
+      <VStack justify='center' alignItems='center' w='100vw' h='100vh' bg='layout' px="10">
         <Box mt='2rem' w="100%">
           <Heading textStyle="bold">
             Login
@@ -85,7 +85,7 @@ const Login = () => {
               <Form>
                 <Box m='2.5rem 0 3rem 0'>
                   <FormControl my='1.5rem' isInvalid={!!errors.email && touched.email}>
-                    <FormLabel color="#272c6f" fontSize="13px">
+                    <FormLabel color="primary" fontSize="13px">
                       Email
                     </FormLabel>
                     <Field
@@ -98,7 +98,7 @@ const Login = () => {
                     <FormErrorMessage fontSize="13px">{errors.email}</FormErrorMessage>
                   </FormControl>
                   <FormControl my='1.5rem' isInvalid={!!errors.password && touched.password}>
-                    <FormLabel color="#272c6f" fontSize="13px">
+                    <FormLabel color="primary" fontSize="13px">
                       Password
                     </FormLabel>
                     <InputGroup size='md'>

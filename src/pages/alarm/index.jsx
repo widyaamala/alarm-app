@@ -176,7 +176,7 @@ const Index = () => {
           <Box
             key={index}
             w="100%"
-            bg="#fff"
+            bg="white"
             pt="2"
             pb="4"
             px="4"
@@ -213,8 +213,8 @@ const Index = () => {
                       key={day.value}
                       variant={
                         item?.selectedDays?.includes(day.value)
-                          ? "solidnavy"
-                          : "outlinenavy"
+                          ? "solidPrimary"
+                          : "outlinePrimary"
                       }
                       borderRadius="100%"
                       w="30px"
@@ -258,14 +258,11 @@ const Index = () => {
         zIndex="99"
       >
         <Button
-          variant="solid"
+          variant="primary"
           rounded="full"
-          background="#272c6f"
-          color="white"
           w="60px"
           h="60px"
           fontSize="30px"
-          _focus={{ background: "#272c6f" }}
           onClick={() => {
             setCurrentAlarmIndex(null);
             setCurrentAlarmTime(null);

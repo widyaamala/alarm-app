@@ -4,7 +4,7 @@ const Toast = ({ title, status }) => {
   return (
     <Box
       color="white"
-      bg={status ==="success" ? "#1CB289" : "#C53030"}
+      bg={status ==="success" ? "success" : "danger"}
       borderRadius="md"
       shadow="md"
       p={3}

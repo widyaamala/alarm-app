@@ -58,7 +58,7 @@ const ChangePassword = () => {
         alignItems="center"
         w="100vw"
         h="100vh"
-        bg="#ecedf78f"
+        bg="layout"
         p="10"
       >
         <Box mt="2rem" w="100%">
@@ -84,7 +84,7 @@ const ChangePassword = () => {
                     my="1rem"
                     isInvalid={!!errors.password && touched.password}
                   >
-                    <FormLabel color="#272c6f" fontSize="13px">
+                    <FormLabel color="primary" fontSize="13px">
                       Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -120,7 +120,7 @@ const ChangePassword = () => {
                     my="1rem"
                     isInvalid={!!errors.new_password && touched.new_password}
                   >
-                    <FormLabel color="#272c6f" fontSize="13px">
+                    <FormLabel color="primary" fontSize="13px">
                       New Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -157,7 +157,7 @@ const ChangePassword = () => {
                       !!errors.confirm_password && touched.confirm_password
                     }
                   >
-                    <FormLabel color="#272c6f" fontSize="13px">
+                    <FormLabel color="primary" fontSize="13px">
                       Confirmation Password
                     </FormLabel>
                     <InputGroup size="md">

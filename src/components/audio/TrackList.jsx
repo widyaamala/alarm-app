@@ -17,7 +17,7 @@ const TrackList = ({
             px="4"
             py="2"
             borderRadius="12px"
-            bg="#b6b9d236"
+            bg="mutedBase"
           >
             <Image
               alt="icon player"
@@ -43,13 +43,13 @@ const TrackList = ({
                 fontSize="14px"
                 color={
                   selectedMusic && selectedMusic.id === track.id && isPlaying
-                    ? "#272c6f"
-                    : "#212121"
+                    ? "primary"
+                    : "main"
                 }
               >
                 {track.title}
               </Text>
-              <Text textStyle="light" fontSize="13px" color="#212121">
+              <Text textStyle="light" fontSize="13px" color="main">
                 {track.artist}
               </Text>
             </VStack>

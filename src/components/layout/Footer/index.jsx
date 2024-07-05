@@ -20,7 +20,7 @@ const Footer = () => {
                   w="1.3em"
                 />
                 <Text
-                  color={pathname?.includes(item.url) ? '#272c6f' : '#b6b9d2'}
+                  color={pathname?.includes(item.url) ? 'primary' : 'muted'}
                   fontSize="12px"
                 >
                   {item.tab}

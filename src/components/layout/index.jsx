@@ -15,7 +15,7 @@ const Layout = () => {
   }, [location])
 
   return (
-    <VStack w='100vw' h='100vh' bg='#ecedf78f' overflowY='hidden'>
+    <VStack w='100vw' h='100vh' bg='layout' overflowY='hidden'>
       <Header />
       <VStack id='wrapper-content' w="100%" h='80vh' px="5" overflowY='auto'>
         <Outlet />

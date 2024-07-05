@@ -39,7 +39,7 @@ const DetailArticle = () => {
             w="30px"
             h="30px"
             p="10px"
-            bg="#272c6f"
+            bg="primary"
             rounded="full"
             position="sticky"
             zIndex="99"
