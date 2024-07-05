@@ -52,17 +52,17 @@ const theme = extendTheme({
       },
       variants: { 
         solidnavy : {
-          background: '#484c86',
-          color: 'white',
+          background: '#b6b9d26b',
+          color: '#272C6F',
           _focus: {
             outline: 0,
-            background: '#484c86',
-            color: 'white',
+            background: '#b6b9d26b',
+            color: '#272C6F',
           },
           _hover: {
             border: "none",
-            background: '#484c86',
-            color: 'white',
+            background: '#b6b9d26b',
+            color: '#272C6F',
           },
         },
         outlinenavy : {
@@ -124,9 +124,9 @@ const theme = extendTheme({
     Switch: {
       baseStyle: {
         track: {
-          bg: '#b6b9d2',
+          bg: '#636899',
           _checked: {
-            bg: '#484c86',
+            bg: '#636899',
           },
         },
       }
