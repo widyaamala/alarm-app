@@ -13,17 +13,19 @@ import {
   InputRightElement,
   Text,
   VStack,
-  useToast
+  useToast,
+  useColorModeValue
 } from "@chakra-ui/react"
 import { useNavigate } from "react-router-dom"
 import { Field, Formik, Form } from "formik"
 import * as yup from "yup"
 import { getUser } from "../../utils/User"
-import { Visibility, VisibilityOff } from "../../assets/icons"
+import useIcons from "../../assets/icons"
 import useServiceMutate from "../../services/mutations"
 import Toast from "../../components/commons/Toast"
 
 const Login = () => {
+  const icons = useIcons()
   const navigate = useNavigate()
   const toast = useToast()
   const [show, setShow] = useState(false)
@@ -49,7 +51,7 @@ const Login = () => {
 
   return (
     <>
-      <VStack justify='center' alignItems='center' w='100vw' h='100vh' bg='layout' px="10">
+      <VStack justify='center' alignItems='center' w='100vw' h='100vh' bg={useColorModeValue('layout.light', 'layout.dark')} px="10">
         <Box mt='2rem' w="100%">
           <Heading textStyle="bold">
             Login
@@ -85,7 +87,7 @@ const Login = () => {
               <Form>
                 <Box m='2.5rem 0 3rem 0'>
                   <FormControl my='1.5rem' isInvalid={!!errors.email && touched.email}>
-                    <FormLabel color="primary" fontSize="13px">
+                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
                       Email
                     </FormLabel>
                     <Field
@@ -98,7 +100,7 @@ const Login = () => {
                     <FormErrorMessage fontSize="13px">{errors.email}</FormErrorMessage>
                   </FormControl>
                   <FormControl my='1.5rem' isInvalid={!!errors.password && touched.password}>
-                    <FormLabel color="primary" fontSize="13px">
+                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
                       Password
                     </FormLabel>
                     <InputGroup size='md'>
@@ -116,7 +118,7 @@ const Login = () => {
                           bg='transparent'
                           _hover={{ bg: "transparent" }}
                           _focus={{ outline: 0 }}
-                          icon={<Image src={show ? VisibilityOff : Visibility} />}
+                          icon={<Image src={show ? icons.visibilityOff : icons.visibility} />}
                           onClick={handleClick}
                         />
                       </InputRightElement>
@@ -132,7 +134,7 @@ const Login = () => {
                   variant="primary"
                   isDisabled={isLoading}
                 >
-                  <Text>Login</Text>
+                  Login
                 </Button>
               </Form>
             )}

@@ -8,6 +8,7 @@ import Login from "./pages/auth/Login"
 import PrivateRoute from "./components/layout/PrivateRoute"
 import ChangePassword from "./pages/auth/ChangePassword"
 import Profile from "./pages/profile"
+import Setting from "./pages/setting"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route exact path='/article' element={<Article />} />
           <Route exact path='/article/:title' element={<DetailArticle />} />
           <Route exact path='/profile' element={<Profile />} />
+          <Route exact path='/setting' element={<Setting />} />
         </Route>
       </Route>
     </ReactRoutes>

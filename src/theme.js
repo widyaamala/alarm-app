@@ -1,4 +1,4 @@
-import { baseTheme, extendTheme } from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react"
 import '@fontsource/open-sans'
 
 const theme = extendTheme({
@@ -33,21 +33,49 @@ const theme = extendTheme({
     },
   },
   colors: {
-    main: '#212121',
-    primary: '#272c6f',
-    secondary: '#484c86',
-    tertiary: '#636899',
-    base: '#b6b9d26b',
-    mutedBase: '#b6b9d236',
-    layout: '#ecedf78f',
-    muted: '#b6b9d2',
+    main: {
+      light: '#212121',
+      dark: '#efefef'
+    },
+    primary: {
+      light: '#272c6f',
+      dark: '#9c5bee'
+    },
+    secondary: {
+      light: '#484c86',
+      dark: '#efeefc'
+    },
+    tertiary: {
+      light: '#636899',
+      dark: '#9188e5'
+    },
+    base: {
+      light: '#b6b9d26b',
+      dark: '#e3e1ff'
+    },
+    mutedBase: {
+      light: '#b6b9d236',
+      dark: '#b6b9d236'
+    },
+    layout: {
+      light: '#ecedf78f',
+      dark: '#1a1a1df5'
+    },
+    background: {
+      light: '#fff',
+      dark: '#161616'
+    },
+    muted: {
+      light: '#b6b9d2',
+      dark: '#b5b5b6'
+    },
     success: '#1CB289',
     danger: '#C53030'
   },
   components: {
     Button: {
-      baseStyle: {
-        background: 'primary',
+      baseStyle: (props) => ({
+        background: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
         color: 'white',
         borderRadius: '20px',
         fontWeight: '500',
@@ -58,104 +86,134 @@ const theme = extendTheme({
         alignItems: 'center',
         justifyContent: 'center',
         _disabled: {
-          background: 'muted',
-          color: 'tertiary',
+          background: props.colorMode === 'light' ? 'muted.light' : 'muted.dark',
+          color: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark',
         },
-      },
-      variants: { 
-        solidPrimary : {
-          background: 'base',
-          color: 'primary',
+      }),
+      variants:{ 
+        solidPrimary : (props) => ({
+          background: props.colorMode === 'light' ?  'base.light' : 'base.dark',
+          color: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
           _focus: {
             outline: 0,
-            background: 'base',
-            color: 'primary',
+            background: props.colorMode === 'light' ? 'base.light' : 'base.dark',
+            color: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
           },
           _hover: {
             border: "none",
-            background: 'base',
-            color: 'primary',
+            background: props.colorMode === 'light' ? 'base.light' : 'base.dark',
+            color: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
           },
-        },
-        outlinePrimary : {
+        }),
+        outlinePrimary : (props) => ({
           border: '1px',
-          borderColor: 'secondary',
+          borderColor: props.colorMode === 'light' ? 'secondary.light' : 'secondary.dark',
           background: 'transparent',
-          color: 'secondary',
-        },
+          color: props.colorMode === 'light' ? 'secondary.light' : 'secondary.dark',
+        }),
       }
     },
+    Divider: {
+      baseStyle : (props) => ({
+        borderColor: props.colorMode === 'light' ? 'darkgray' : 'gray'
+      })
+    },
     Input: {
-      baseStyle : {
+      baseStyle : (props) => ({
         field: {
           fontSize: '14px',
           fontWeight: 500,
           height: "50px",
+          color: props.colorMode === 'light' ? 'main.light' : 'main.dark'
         }
-      }
+      })
     },
     Menu: {
-      baseStyle: {
+      baseStyle: (props) => ({
+        list: {
+          background: props.colorMode === 'light' ? 'background.light' : 'background.dark'
+        },
         item: {
+          bg: props.colorMode === 'light' ? 'background.light' : 'background.dark',
+          color: props.colorMode === 'light' ? 'main.light' : 'main.dark',
           _hover: {
             color: 'white',
-            bg: "primary",
+            bg: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
             borderColor: "inherit",
           },
           _focus: {
             color: 'white',
-            bg: "primary",
+            bg: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
             boxShadow: "none",
           },
         },
-      },
+      }),
+    },
+    Modal: {
+      baseStyle: (props) => ({
+        dialog: {
+          background: props.colorMode === 'light' ? 'background.light' : 'background.dark'
+        }
+      })
     },
     Tabs: {
-      variants: { 
+      variants: (props) => ({ 
         line : {
           tab: {
             px: '8',
             py: '3',
             border: 'none',
             _selected: {
-              color: 'secondary',
+              color: props.colorMode === 'light' ? 'secondary.light' : 'secondary.dark',
               borderRadius: 0,
               borderBottom: '3px',
-              borderColor: 'secondary'
+              borderColor: props.colorMode === 'light' ? 'secondary.light' : 'secondary.dark'
             },
             _hover: {
-              color: 'secondary',
+              color: props.colorMode === 'light' ? 'secondary.light' : 'secondary.dark',
               borderRadius: 0,
               borderBottom: '3px',
-              borderColor: 'secondary'
+              borderColor: props.colorMode === 'light' ? 'secondary.light' : 'secondary.dark'
             },
             _focus: {
               outline: 0,
             },
           }
         },
-      }
+      })
+    },
+    Text: {
+      baseStyle: (props) => ({
+        color: props.colorMode === 'light' ? 'main.light' : 'main.dark'
+      })
     },
     Switch: {
-      baseStyle: {
+      baseStyle: (props) => ({
         track: {
-          bg: 'tertiary',
+          // bg: 'tertiary',
           _checked: {
-            bg: 'tertiary',
+            bg: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark',
           },
         },
-      }
+      })
     },
     Slider: {
-      baseStyle: {
+      baseStyle: (props) => ({
         thumb: {
-          bg: 'tertiary'
+          bg: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark'
         },
         filledTrack: {
-          bg: 'tertiary'
+          bg: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark'
         }
-      }
+      })
     }
+  },
+  styles: {
+    global: (props) => ({
+      ".picker": {
+        backgroundColor: props.colorMode === 'light' ? 'background.light' : 'background.dark',
+      },
+    }),
   },
 })
 

@@ -14,16 +14,18 @@ import {
   Text,
   VStack,
   useToast,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { Field, Formik, Form } from "formik";
 import * as yup from "yup";
-import { Visibility, VisibilityOff } from "../../assets/icons";
+import useIcons from "../../assets/icons";
 import useServiceMutate from "../../services/mutations";
 import Toast from "../../components/commons/Toast";
 
 const ChangePassword = () => {
+  const icons = useIcons()
   const navigate = useNavigate();
   const formikRef = useRef();
   const toast = useToast();
@@ -58,7 +60,7 @@ const ChangePassword = () => {
         alignItems="center"
         w="100vw"
         h="100vh"
-        bg="layout"
+        bg={useColorModeValue('layout.light', 'layout.dark')}
         p="10"
       >
         <Box mt="2rem" w="100%">
@@ -84,7 +86,7 @@ const ChangePassword = () => {
                     my="1rem"
                     isInvalid={!!errors.password && touched.password}
                   >
-                    <FormLabel color="primary" fontSize="13px">
+                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
                       Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -104,7 +106,7 @@ const ChangePassword = () => {
                           _focus={{ outline: 0 }}
                           icon={
                             <Image
-                              src={showPass ? VisibilityOff : Visibility}
+                              src={showPass ? icons.visibilityOff : icons.visibility}
                             />
                           }
                           onClick={() => setShowPass(!showPass)}
@@ -120,7 +122,7 @@ const ChangePassword = () => {
                     my="1rem"
                     isInvalid={!!errors.new_password && touched.new_password}
                   >
-                    <FormLabel color="primary" fontSize="13px">
+                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
                       New Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -140,7 +142,7 @@ const ChangePassword = () => {
                           _focus={{ outline: 0 }}
                           icon={
                             <Image
-                              src={showNewPass ? VisibilityOff : Visibility}
+                              src={showPass ? icons.visibilityOff : icons.visibility}
                             />
                           }
                           onClick={() => setShowNewPass(!showNewPass)}
@@ -157,7 +159,7 @@ const ChangePassword = () => {
                       !!errors.confirm_password && touched.confirm_password
                     }
                   >
-                    <FormLabel color="primary" fontSize="13px">
+                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
                       Confirmation Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -177,7 +179,7 @@ const ChangePassword = () => {
                           _focus={{ outline: 0 }}
                           icon={
                             <Image
-                              src={showConfirmPass ? VisibilityOff : Visibility}
+                              src={showPass ? icons.visibilityOff : icons.visibility}
                             />
                           }
                           onClick={() => setShowConfirmPass(showConfirmPass)}
@@ -196,7 +198,7 @@ const ChangePassword = () => {
                   variant="primary"
                   // isDisabled={isLoading}
                 >
-                  <Text>Submit</Text>
+                  Submit
                 </Button>
               </Form>
             )}

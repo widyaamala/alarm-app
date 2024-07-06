@@ -8,13 +8,15 @@ import {
   Text,
   Skeleton,
   SkeletonText,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { Markup } from "interweave";
-import { ArrowBackIcon } from "../../assets/icons";
+import useIcons from "../../assets/icons";
 import useQueryFetch from "../../services/queries";
 import moment from "moment";
 
 const DetailArticle = () => {
+  const icons = useIcons()
   const navigate = useNavigate();
   const { title } = useParams();
   const { data, isLoading } = useQueryFetch.getArticles({ title: title });
@@ -35,11 +37,11 @@ const DetailArticle = () => {
         <>
           <Image
             onClick={() => navigate("/article")}
-            src={ArrowBackIcon}
+            src={icons.arrowBack}
             w="30px"
             h="30px"
             p="10px"
-            bg="primary"
+            bg={useColorModeValue('primary.light', 'primary.dark')}
             rounded="full"
             position="sticky"
             zIndex="99"
@@ -75,7 +77,7 @@ const DetailArticle = () => {
           <Text textStyle="primary" fontSize="14px">
             CNN News
           </Text>
-          <VStack my="3" fontSize="15px">
+          <VStack my="3" fontSize="15px" color={useColorModeValue('main.light', 'main.dark')}>
             <Markup content={dataDetail.description} />
           </VStack>
         </>

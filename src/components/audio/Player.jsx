@@ -7,18 +7,9 @@ import {
   Image,
   VStack,
   HStack,
+  useColorModeValue
 } from "@chakra-ui/react";
-import {
-  PlayCircleIcon,
-  PauseCircleIcon,
-  RepeatIcon,
-  RepeatOneIcon,
-  RepeatOnIcon,
-  SkipNextIcon,
-  SkipPreviousIcon,
-  VolumeUpIcon,
-  VolumeOffIcon,
-} from "../../assets/icons";
+import useIcons from "../../assets/icons";
 import { formatTime } from "../../utils/Helper";
 
 const Player = ({
@@ -35,13 +26,15 @@ const Player = ({
   repeatMode,
   handleSeekChange
 }) => {
+  const icons = useIcons()
+
   return (
     <VStack
       bottom="50px"
       position="fixed"
       zIndex="9"
       width="100%"
-      bg="white"
+      bg={useColorModeValue('background.light', 'background.dark')}
       pt="5"
       pb="6"
       px="5"
@@ -77,7 +70,7 @@ const Player = ({
         <HStack w="100%" justifyContent="space-between" pl="4" pr="1">
           <Image
             alt="icon volume"
-            src={isMuted ? VolumeOffIcon : VolumeUpIcon}
+            src={isMuted ? icons.volumeOff : icons.volumeUp}
             onClick={toggleMute}
             mr="auto"
             w="1em"
@@ -86,21 +79,21 @@ const Player = ({
           <HStack mx="auto" gap="4">
             <Image
               alt="icon previous"
-              src={SkipPreviousIcon}
+              src={icons.skipPrevious}
               onClick={togglePrev}
               w="0.85em"
               h="0.85em"
             />
             <Image
               alt="icon play"
-              src={isPlaying ? PauseCircleIcon : PlayCircleIcon}
+              src={isPlaying ? icons.pauseCircle : icons.playCircle}
               onClick={togglePlay}
               w="2em"
               h="2em"
             />
             <Image
               alt="icon next"
-              src={SkipNextIcon}
+              src={icons.skipNext}
               onClick={toggleNext}
               w="0.85em"
               h="0.85em"
@@ -109,10 +102,10 @@ const Player = ({
           <Image
             alt="icon repeat"
             src={repeatMode === "off"
-              ? RepeatIcon
+              ? icons.repeat
               : repeatMode === "one"
-                ? RepeatOneIcon
-                : RepeatOnIcon
+                ? icons.repeatOne
+                : icons.repeatOn
             }
             onClick={toggleRepeat}
             ml="auto"

@@ -10,8 +10,9 @@ import {
   Image,
   HStack,
   Text,
+  useColorModeValue
 } from "@chakra-ui/react"
-import { ErrorIcon } from "../../../assets/icons";
+import useIcons from "../../../assets/icons";
 
 function ConfirmationModal({ 
   isOpen, 
@@ -25,7 +26,8 @@ function ConfirmationModal({
   customIcon,
   confirmationTitle,
 }) {
-  
+  const icons = useIcons()
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={toggle} size="xs" m="5" isCentered autoFocus={false}>
@@ -33,14 +35,14 @@ function ConfirmationModal({
         <ModalContent p="5" borderRadius='20px'>
           <ModalHeader p='0'>
             <HStack>
-              <Text textStyle='primary'>
+              <Text textStyle={useColorModeValue('primary.light', 'primary.dark')}>
                 { confirmationTitle ? confirmationTitle : "Confirmation"}
               </Text>
             </HStack>
           </ModalHeader>
           <ModalBody p='0' my='4'>
             <HStack spacing='20px'>
-              <Image src={ErrorIcon} w="1.5em" h='1.5em' />
+              <Image src={icons.error} w="1.5em" h='1.5em' />
               <Text fontSize='14px'>
                 {message}
                 {messageData && (

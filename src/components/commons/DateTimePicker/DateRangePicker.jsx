@@ -5,6 +5,7 @@ import "react-date-range/dist/theme/default.css";
 import moment from "moment";
 import "./datetimepicker.css"
 import { CalendarMonthIcon } from "../../../assets/icons";
+import useIcons from "../../../assets/icons";
 
 const DateRangePicker = ({
   value,
@@ -12,6 +13,7 @@ const DateRangePicker = ({
   toggle,
   ...props
 }) => {
+  const icons = useIcons()
   const [isOpen, setIsOpen] = useState(false);
   const [tempDateRange, setTempDateRange] = useState({
     startDate: value?.startDate ?? new Date(),
@@ -51,7 +53,7 @@ const DateRangePicker = ({
   return (
     <>
       <div onClick={() => onToggle()}>
-        <image src={CalendarMonthIcon} />
+        <image src={icons.calendarMonth} />
       </div>
       {isOpen && (
         <div className="overlay-picker">

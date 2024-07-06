@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { Avatar, Box, Button, Divider, HStack, Image, Text, VStack } from "@chakra-ui/react";
-import { EmailIcon, BadgeIcon, ContactPhoneIcon } from "../../assets/icons";
+import { Avatar, Box, Button, Divider, HStack, Image, Text, VStack, useColorModeValue } from "@chakra-ui/react";
+import useIcons from "../../assets/icons";
 import useServiceMutate from "../../services/mutations";
 
 const Index = () => {
+  const icons = useIcons()
   const navigate = useNavigate();
 
   const logout = useMutation({
@@ -14,17 +15,17 @@ const Index = () => {
   });
 
   return (
-    <VStack w="100%" my="5" px="5">
-      <Avatar bg="primary" size="lg" mb="5" />
+    <VStack w="100%" h="100%" my="5" px="5">
+      <Avatar bg={useColorModeValue('primary.light', 'primary.dark')} size="lg" mb="5" />
       <HStack my="2" w="100%" justifyContent="start">
         <Box
           rounded="full"
           w="36px"
           h="36px"
-          bg="base"
+          bg={useColorModeValue('base.light', 'base.dark')}
           p="8px"
         >
-          <Image w="100%" h="100%" src={BadgeIcon} />
+          <Image w="100%" h="100%" src={icons.badge} />
         </Box>
         <VStack align="start">
           <Text color="grey" textStyle="light" fontSize="14px">
@@ -39,10 +40,10 @@ const Index = () => {
           rounded="full"
           w="36px"
           h="36px"
-          bg="base"
+          bg={useColorModeValue('base.light', 'base.dark')}
           p="8px"
         >
-          <Image w="100%" h="100%" src={EmailIcon} />
+          <Image w="100%" h="100%" src={icons.email} />
         </Box>
         <VStack align="start">
           <Text color="grey" textStyle="light" fontSize="14px">
@@ -57,10 +58,10 @@ const Index = () => {
           rounded="full"
           w="36px"
           h="36px"
-          bg="base"
+          bg={useColorModeValue('base.light', 'base.dark')}
           p="8px"
         >
-          <Image w="100%" h="100%" src={ContactPhoneIcon} />
+          <Image w="100%" h="100%" src={icons.contactPhone} />
         </Box>
         <VStack align="start">
           <Text color="grey" textStyle="light" fontSize="14px">
@@ -70,13 +71,13 @@ const Index = () => {
         </VStack>
       </HStack>
       <Divider />
-      <HStack mt="8" w="100%" justifyContent="center">
+      <HStack mt="auto" w="100%" justifyContent="center">
         <Button
           textStyle="semi"
           fontSize="14px"
           border="1px"
-          borderColor="danger"
-          color="danger"
+          borderColor='danger'
+          color='danger'
           bg="white"
           w="50%"
           onClick={() => logout.mutate()}

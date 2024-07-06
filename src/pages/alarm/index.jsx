@@ -9,9 +9,11 @@ import {
   Input,
   Image,
   Collapse,
+  useColorMode,
+  useColorModeValue
 } from "@chakra-ui/react";
 import moment from "moment";
-import { LabelIcon, DeleteIcon } from "../../assets/icons";
+import useIcons from "../../assets/icons";
 import { Howl } from "howler";
 
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
@@ -19,6 +21,8 @@ import { days } from "../../utils/Constants";
 import ConfirmationModal from "../../components/commons/Modal/ConfirmationModal";
 
 const Index = () => {
+  const icons = useIcons()
+  const { colorMode } = useColorMode()
   const excludeElements = ['input', 'button', 'switch', 'label-icon', 'delete-icon'];
   const [collapsedIndex, setCollapsedIndex] = useState(null);
   const [isOpenTime, setIsOpenTime] = useState(false);
@@ -176,7 +180,7 @@ const Index = () => {
           <Box
             key={index}
             w="100%"
-            bg="white"
+            bg={colorMode === "light" ? 'white' : 'mutedBase.light'}
             pt="2"
             pb="4"
             px="4"
@@ -230,7 +234,7 @@ const Index = () => {
                 </HStack>
               </HStack>
               <HStack alignItems="center" my="3">
-                <Image src={LabelIcon} w="1em" h="1em" />
+                <Image src={icons.label} w="1em" h="1em" />
                 <Input
                   placeholder="Add Label"
                   variant="unstyled"
@@ -244,7 +248,7 @@ const Index = () => {
                 my="3"
                 onClick={stopPropagation(() => showDeleteModal(index))}
               >
-                <Image src={DeleteIcon} w="1em" h="1em" />
+                <Image src={icons.delete} w="1em" h="1em" />
                 <Text fontSize="0.85rem">Delete</Text>
               </HStack>
             </Collapse>
@@ -258,7 +262,7 @@ const Index = () => {
         zIndex="99"
       >
         <Button
-          variant="primary"
+          variant={useColorModeValue('primary.light', 'primary.dark')}
           rounded="full"
           w="60px"
           h="60px"

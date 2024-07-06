@@ -1,5 +1,5 @@
-import { HStack, Image, List, ListItem, Text, VStack } from "@chakra-ui/react";
-import { PlayCircleIcon, PauseCircleIcon } from "../../assets/icons";
+import { HStack, Image, List, ListItem, Text, VStack, useColorModeValue } from "@chakra-ui/react";
+import useIcons from "../../assets/icons";
 
 const TrackList = ({
   trackList,
@@ -7,6 +7,8 @@ const TrackList = ({
   isPlaying,
   selectedMusic
 }) => {
+  const icons = useIcons()
+
   return (
     <List w="100%" mb="6.5rem">
       {trackList.map((track, index) => (
@@ -17,14 +19,14 @@ const TrackList = ({
             px="4"
             py="2"
             borderRadius="12px"
-            bg="mutedBase"
+            bg={useColorModeValue('mutedBase.light', 'mutedBase.dark')}
           >
             <Image
               alt="icon player"
               src={
                 selectedMusic && selectedMusic.id === track.id && isPlaying
-                  ? PauseCircleIcon
-                  : PlayCircleIcon
+                  ? icons.pauseCircle
+                  : icons.playCircle
               }
               onClick={() => toggleTrack(track, index)}
               w="1.3em"
@@ -43,8 +45,8 @@ const TrackList = ({
                 fontSize="14px"
                 color={
                   selectedMusic && selectedMusic.id === track.id && isPlaying
-                    ? "primary"
-                    : "main"
+                    ? useColorModeValue('primary.light', 'primary.dark')
+                    : useColorModeValue('main.light', 'main.dark')
                 }
               >
                 {track.title}

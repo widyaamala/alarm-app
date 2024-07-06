@@ -1,12 +1,3 @@
-import {
-  AlarmIcon,
-  AlarmActiveIcon,
-  LibraryMusicIcon,
-  LibraryMusicActiveIcon,
-  NewspaperIcon,
-  NewspaperActiveIcon
-} from '../assets/icons';
-
 export const days = [
   { id: 0, label: 'S', value: 'Sun' },
   { id: 1, label: 'M', value: 'Mon' },
@@ -18,9 +9,9 @@ export const days = [
 ]
 
 export const footerTab = [
-  { tab: 'Alarm', url: '/alarm', icon: AlarmIcon, iconActive: AlarmActiveIcon },
-  { tab: 'Audio', url: '/audio', icon: LibraryMusicIcon, iconActive: LibraryMusicActiveIcon },
-  { tab: 'Article', url: '/article', icon: NewspaperIcon, iconActive: NewspaperActiveIcon }
+  { tab: 'Alarm', url: '/alarm', icon: "alarm", iconActive: "alarmActive" },
+  { tab: 'Audio', url: '/audio', icon: "libraryMusic", iconActive: "libraryMusicActive" },
+  { tab: 'Article', url: '/article', icon: "newspaper", iconActive: "newspaperActive" }
 ]
 
 export const MusicInstances = [

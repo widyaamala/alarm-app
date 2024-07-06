@@ -7,12 +7,14 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  useColorModeValue
 } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MoreVertIcon } from "../../../assets/icons";
+import useIcons from "../../../assets/icons";
 import capitalizeFirstLetter from "../../../utils/Helper";
 
 const Header = () => {
+  const icons = useIcons()
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const title = capitalizeFirstLetter(pathname.split("/")[1]);
@@ -29,21 +31,21 @@ const Header = () => {
       zIndex="999"
       // sx={{ boxShadow: '0px 8px 20px -4px #1C37BE1A' }}
     >
-      <Text textStyle="bold" fontSize="large">
+      <Text textStyle="bold" fontSize="large" color={useColorModeValue('main.light', 'main.dark')}>
         {title}
       </Text>
       <Menu isLazy>
         <MenuButton
           as={IconButton}
           aria-label="Options"
-          icon={<Image src={MoreVertIcon} h="1.3em" />}
+          icon={<Image src={icons.moreVert} h="1.3em" />}
           variant="unstyled"
           w="auto"
           minW="0"
         />
         <MenuList>
           <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-          <MenuItem>Setting</MenuItem>
+          <MenuItem onClick={() => navigate('/setting')}>Setting</MenuItem>
         </MenuList>
       </Menu>
     </HStack>

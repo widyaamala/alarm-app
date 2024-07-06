@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router-dom"
-import { VStack } from "@chakra-ui/react"
+import { VStack, useColorModeValue } from "@chakra-ui/react"
 import { Howler } from "howler"
 import Header from "./Header"
 import Footer from "./Footer"
@@ -15,7 +15,7 @@ const Layout = () => {
   }, [location])
 
   return (
-    <VStack w='100vw' h='100vh' bg='layout' overflowY='hidden'>
+    <VStack w='100vw' h='100vh' bg={useColorModeValue('layout.light', 'layout.dark')} overflowY='hidden'>
       <Header />
       <VStack id='wrapper-content' w="100%" h='80vh' px="5" overflowY='auto'>
         <Outlet />
