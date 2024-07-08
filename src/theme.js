@@ -129,6 +129,19 @@ const theme = extendTheme({
         }
       })
     },
+    Link: {
+      baseStyle: (props) => ({
+        fontSize: '14px',
+        fontWeight: 500,
+        color: props.colorMode === 'light' ? 'main.light' : 'main.dark',
+        _hover: {
+          color: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark',
+        },
+        _focus: {
+          color: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark',
+        }
+      })
+    },
     Menu: {
       baseStyle: (props) => ({
         list: {

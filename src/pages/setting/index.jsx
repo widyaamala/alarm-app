@@ -7,7 +7,9 @@ import {
   Switch,
   useColorMode,
   useColorModeValue,
+  Link as ChakraLink,
 } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 const Setting = () => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -25,11 +27,13 @@ const Setting = () => {
         bg={useColorModeValue("mutedBase.light", "mutedBase.dark")}
         borderRadius="13px"
       >
-        <Text fontSize="14px">Profile</Text>
+        <ChakraLink as={ReactRouterLink} to='/profile'>
+          Profile
+        </ChakraLink>
         <Divider />
-        <Text fontSize="14px" mt="3">
+        <ChakraLink as={ReactRouterLink} to='/' mt="3">
           Sound
-        </Text>
+        </ChakraLink>
         <Divider />
         <HStack justifyContent="space-between" mt="3" w="100%">
           <Text fontSize="14px">Dark Mode</Text>
@@ -54,15 +58,17 @@ const Setting = () => {
         bg={useColorModeValue("mutedBase.light", "mutedBase.dark")}
         borderRadius="13px"
       >
-        <Text fontSize="14px">Privacy & Security</Text>
+        <ChakraLink as={ReactRouterLink} to='/' mt="3">
+          Privacy & Security
+        </ChakraLink>
         <Divider />
-        <Text fontSize="14px" mt="3">
+        <ChakraLink as={ReactRouterLink} to='/' mt="3">
           Help & FAQ
-        </Text>
+        </ChakraLink>
         <Divider />
-        <Text fontSize="14px" mt="3">
+        <ChakraLink as={ReactRouterLink} to='/' mt="3">
           About
-        </Text>
+        </ChakraLink>
         <Divider />
       </VStack>
       <Button

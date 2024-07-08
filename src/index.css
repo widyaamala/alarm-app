@@ -67,7 +67,10 @@ h1 {
 }
 
 .glass-background {
-  background: rgba(255, 255, 255, 0.2) !important;
+  /* background: rgba(255, 255, 255, 0.2) !important; */
+  background: #272c6f82 !important;
+  color: #fff !important;
+  font-weight: 500 !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
   backdrop-filter: blur(10px) !important;
 }

@@ -65,6 +65,7 @@ const Index = () => {
               key={index}
               my="5"
               onClick={() => navigate(`/article/${item.title}`)}
+              cursor="pointer"
             >
               <Box w="35%" h="85px" position="relative">
                 <Image

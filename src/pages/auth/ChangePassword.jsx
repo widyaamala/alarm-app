@@ -14,9 +14,11 @@ import {
   Text,
   VStack,
   useToast,
-  useColorModeValue
+  useColorModeValue,
+  Link as ChakraLink,
+  HStack,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as ReactRouterLink } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { Field, Formik, Form } from "formik";
 import * as yup from "yup";
@@ -25,7 +27,7 @@ import useServiceMutate from "../../services/mutations";
 import Toast from "../../components/commons/Toast";
 
 const ChangePassword = () => {
-  const icons = useIcons()
+  const icons = useIcons();
   const navigate = useNavigate();
   const formikRef = useRef();
   const toast = useToast();
@@ -60,11 +62,13 @@ const ChangePassword = () => {
         alignItems="center"
         w="100vw"
         h="100vh"
-        bg={useColorModeValue('layout.light', 'layout.dark')}
+        bg={useColorModeValue("layout.light", "layout.dark")}
         p="10"
       >
         <Box mt="2rem" w="100%">
-          <Text textStyle="bold" fontSize="24px">Change Password</Text>
+          <Text textStyle="bold" fontSize="24px">
+            Change Password
+          </Text>
         </Box>
         <Box w="100%">
           <Formik
@@ -76,7 +80,7 @@ const ChangePassword = () => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              logout.mutate()
+              logout.mutate();
             }}
           >
             {({ errors, touched }) => (
@@ -86,7 +90,10 @@ const ChangePassword = () => {
                     my="1rem"
                     isInvalid={!!errors.password && touched.password}
                   >
-                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
+                    <FormLabel
+                      color={useColorModeValue("tertiary.light", "tertiary.dark")}
+                      fontSize="13px"
+                    >
                       Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -106,7 +113,11 @@ const ChangePassword = () => {
                           _focus={{ outline: 0 }}
                           icon={
                             <Image
-                              src={showPass ? icons.visibilityOff : icons.visibility}
+                              src={
+                                showPass
+                                  ? icons.visibilityOff
+                                  : icons.visibility
+                              }
                             />
                           }
                           onClick={() => setShowPass(!showPass)}
@@ -122,7 +133,10 @@ const ChangePassword = () => {
                     my="1rem"
                     isInvalid={!!errors.new_password && touched.new_password}
                   >
-                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
+                    <FormLabel
+                      color={useColorModeValue("tertiary.light", "tertiary.dark")}
+                      fontSize="13px"
+                    >
                       New Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -142,7 +156,11 @@ const ChangePassword = () => {
                           _focus={{ outline: 0 }}
                           icon={
                             <Image
-                              src={showPass ? icons.visibilityOff : icons.visibility}
+                              src={
+                                showPass
+                                  ? icons.visibilityOff
+                                  : icons.visibility
+                              }
                             />
                           }
                           onClick={() => setShowNewPass(!showNewPass)}
@@ -159,7 +177,10 @@ const ChangePassword = () => {
                       !!errors.confirm_password && touched.confirm_password
                     }
                   >
-                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
+                    <FormLabel
+                      color={useColorModeValue("tertiary.light", "tertiary.dark")}
+                      fontSize="13px"
+                    >
                       Confirmation Password
                     </FormLabel>
                     <InputGroup size="md">
@@ -179,7 +200,11 @@ const ChangePassword = () => {
                           _focus={{ outline: 0 }}
                           icon={
                             <Image
-                              src={showPass ? icons.visibilityOff : icons.visibility}
+                              src={
+                                showPass
+                                  ? icons.visibilityOff
+                                  : icons.visibility
+                              }
                             />
                           }
                           onClick={() => setShowConfirmPass(showConfirmPass)}
@@ -194,7 +219,7 @@ const ChangePassword = () => {
                 <Button
                   type="submit"
                   w="100%"
-                  my="3rem"
+                  mt="3rem"
                   variant="primary"
                   // isDisabled={isLoading}
                 >
@@ -203,6 +228,11 @@ const ChangePassword = () => {
               </Form>
             )}
           </Formik>
+          <HStack justify="center" mt="1rem" mb="3rem">
+            <ChakraLink as={ReactRouterLink} to='/'>
+              Back to App
+            </ChakraLink>
+          </HStack>
         </Box>
       </VStack>
     </>

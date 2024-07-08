@@ -45,6 +45,7 @@ const DetailArticle = () => {
             rounded="full"
             position="sticky"
             zIndex="99"
+            cursor="pointer"
           />
           <VStack gap="0" align="start" mt="4">
             <Box position="relative">

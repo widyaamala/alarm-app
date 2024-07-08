@@ -80,14 +80,14 @@ const Login = () => {
                   render: () => <Toast title="Successfully Login!" status="success" />,
                 })
                 navigate('/alarm')
-              }, 3000)
+              }, 1500)
             }}
           >
             {({ errors, touched }) => (
               <Form>
                 <Box m='2.5rem 0 3rem 0'>
                   <FormControl my='1.5rem' isInvalid={!!errors.email && touched.email}>
-                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
+                    <FormLabel color={useColorModeValue('tertiary.light', 'tertiary.dark')} fontSize="13px">
                       Email
                     </FormLabel>
                     <Field
@@ -100,7 +100,7 @@ const Login = () => {
                     <FormErrorMessage fontSize="13px">{errors.email}</FormErrorMessage>
                   </FormControl>
                   <FormControl my='1.5rem' isInvalid={!!errors.password && touched.password}>
-                    <FormLabel color={useColorModeValue('primary.light', 'primary.dark')} fontSize="13px">
+                    <FormLabel color={useColorModeValue('tertiary.light', 'tertiary.dark')} fontSize="13px">
                       Password
                     </FormLabel>
                     <InputGroup size='md'>
