@@ -257,7 +257,7 @@ const Index = () => {
       </VStack>
       <HStack
         justifyContent="center"
-        bottom="80px"
+        bottom="70px"
         position="fixed"
         zIndex="99"
       >

@@ -9,7 +9,7 @@ const Footer = () => {
   const activeTab = footerTab?.findIndex((footer) => footer.url === pathname)
 
   return (
-    <Box mt='auto' w='100%' bg={useColorModeValue('background.light', 'background.dark')} pt='2' boxShadow='2px -10px 20px -15px #ecedf78f'>
+    <Box mt='auto' w='100%' bg={useColorModeValue('background.light', 'background.dark')} pt='2'>
       <Tabs variant='unstyled' defaultIndex={activeTab}>
         <TabList w='100%'>
           {footerTab?.map((item, index) => {

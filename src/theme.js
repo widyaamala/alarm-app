@@ -39,7 +39,8 @@ const theme = extendTheme({
     },
     primary: {
       light: '#272c6f',
-      dark: '#9c5bee'
+      // dark: '#9c5bee'
+      dark: '#484c86'
     },
     secondary: {
       light: '#484c86',

@@ -45,7 +45,7 @@ const TrackList = ({
                 fontSize="14px"
                 color={
                   selectedMusic && selectedMusic.id === track.id && isPlaying
-                    ? useColorModeValue('primary.light', 'primary.dark')
+                    ? useColorModeValue('primary.light', 'tertiary.dark')
                     : useColorModeValue('main.light', 'main.dark')
                 }
               >
