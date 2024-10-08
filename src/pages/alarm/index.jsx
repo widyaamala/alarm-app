@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import moment from "moment";
 import useIcons from "../../assets/icons";
-import { Howl } from "howler";
 
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
 import { days } from "../../utils/Constants";
@@ -85,7 +84,7 @@ const Index = () => {
     setIsOpenTime(!isOpenTime);
   };
 
-  const handleChangeAlarm = (time) => {
+  const handleChangeAlarm = (time, days, label) => {
     if (currentAlarmIndex === null || currentAlarmIndex === undefined) {
       const uuid = nanoid();
 
@@ -102,6 +101,7 @@ const Index = () => {
           return item;
         })
       );
+      setCollapsedIndex(currentAlarmIndex); 
     }
     setIsOpenTime(false);
   };
@@ -255,6 +255,7 @@ const Index = () => {
           value={currentAlarmTime ? new Date(currentAlarmTime) : null}
           handleChange={handleChangeAlarm}
           toggle={handleCancelAlarm}
+          isNew={currentAlarmIndex === null}
         />
       )}
       <ConfirmationModal
