@@ -14,7 +14,6 @@ import {
 } from "@chakra-ui/react";
 import moment from "moment";
 import useIcons from "../../assets/icons";
-import { Howl } from "howler";
 
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
 import { days } from "../../utils/Constants";
@@ -34,10 +33,6 @@ const Index = () => {
   const [dataAlarm, setDataAlarm] = useState(
     JSON.parse(localStorage.getItem("alarm_data")) ?? []
   );
-
-  const alarmSound = new Howl({
-    src: ["/alarm.mp3"],
-  });
 
   useEffect(() => {
     localStorage.setItem("alarm_data", JSON.stringify(dataAlarm));
@@ -87,12 +82,13 @@ const Index = () => {
     setIsOpenTime(!isOpenTime);
   };
 
-  const handleChangeAlarm = (time) => {
+  const handleChangeAlarm = (time, days, label) => {
     if (currentAlarmIndex === null || currentAlarmIndex === undefined) {
       setDataAlarm([
         ...dataAlarm,
-        { time: time, selectedDays: [], isActive: true },
+        { time: time, selectedDays: days, label, isActive: true },
       ]);
+      setCollapsedIndex(dataAlarm.length);
     } else {
       setDataAlarm(
         dataAlarm.map((item, index) => {
@@ -100,6 +96,7 @@ const Index = () => {
           return item;
         })
       );
+      setCollapsedIndex(currentAlarmIndex); 
     }
     notifications.schedule(moment(time).format("HH"), moment(time).format("mm"))
     setIsOpenTime(false);
@@ -254,6 +251,7 @@ const Index = () => {
           value={currentAlarmTime ? new Date(currentAlarmTime) : null}
           handleChange={handleChangeAlarm}
           toggle={handleCancelAlarm}
+          isNew={currentAlarmIndex === null}
         />
       )}
       <ConfirmationModal
