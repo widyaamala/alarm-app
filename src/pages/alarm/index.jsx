@@ -19,6 +19,7 @@ import { Howl } from "howler";
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
 import { days } from "../../utils/Constants";
 import ConfirmationModal from "../../components/commons/Modal/ConfirmationModal";
+import notifications from './notification.ts';
 
 const Index = () => {
   const icons = useIcons()
@@ -100,6 +101,7 @@ const Index = () => {
         })
       );
     }
+    notifications.schedule(moment(time).format("HH"), moment(time).format("mm"))
     setIsOpenTime(false);
   };
 
@@ -143,35 +145,6 @@ const Index = () => {
       return selectedDays?.join(", ");
     }
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      dataAlarm.forEach((alarm) => {
-        if (alarm.isActive) {
-          const alarmTime = new Date();
-          const [hours, minutes] = moment(alarm.time).format("HH:mm")?.split(":");
-          alarmTime.setHours(hours);
-          alarmTime.setMinutes(minutes);
-
-          const isTodayOrTomorrow =
-            !alarm.selectedDays.length &&
-            (alarmTime > now || alarmTime.getDate() === now.getDate() + 1);
-
-          if (
-            (isTodayOrTomorrow || alarm.selectedDays.includes(days[now.getDay()].value)) &&
-            now.getHours() === alarmTime.getHours() &&
-            now.getMinutes() === alarmTime.getMinutes()
-          ) {
-            alarmSound.play()
-            alert(`Alarm for ${alarm.time} is ringing!`)
-          }
-        }
-      });
-    }, 60000); // Check every minute
-
-    return () => clearInterval(interval);
-  }, [dataAlarm]);
 
   return (
     <>
