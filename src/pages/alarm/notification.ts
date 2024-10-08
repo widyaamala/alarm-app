@@ -1,10 +1,21 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
 
 class Notifications {
-  public async schedule(hour: number, minute: number) {
+  public async schedule(id: number, hour: number, minute: number) {
     try {
-      // Request/ check permissions
-      // if (!(await LocalNotifications.requestPermissions()).granted) return;
+      const result = await LocalNotifications.listChannels();
+      if (result.channels.find(ch => ch.id === 'alarm') === undefined) {
+        await LocalNotifications.createChannel({
+          id: 'alarm',
+          name: 'Alarm',
+          sound: 'alarm.wav',
+          lightColor: '#f49c21',
+          importance: 5,
+          visibility: 1,
+          vibration: true,
+          lights: true
+        });
+      }
 
       // Clear old notifications in prep for refresh (OPTIONAL)
       const pending = await LocalNotifications.getPending();
@@ -13,15 +24,17 @@ class Notifications {
 
       await LocalNotifications.schedule({
         notifications: [{
-          title: 'Triumph30',
+          title: 'Tanpa Pintu',
           body: 'Alarm',
-          id: 1,
+          id: id,
           schedule: {
+            allowWhileIdle: true,
             on: { // swap this out for at or every as needed
               hour,
               minute
             }
-          }
+          },
+          channelId: 'alarm'
         }]
       });
     } catch (error) {

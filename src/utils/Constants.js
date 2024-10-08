@@ -26,7 +26,7 @@ export const MusicInstances = [
   },
   {
     id: "t2",
-    src: "/alarm.mp3",
+    src: "/alarm.wav",
     title: "Out Of My Mind",
     artist: "Refuzion",
     album: "Album Name",
@@ -44,7 +44,7 @@ export const MusicInstances = [
   },
   {
     id: "t6",
-    src: "/alarm.mp3",
+    src: "/alarm.wav",
     title: "The Moment (Outro)",
     artist: "Bell Witch",
     album: "Album Name",

@@ -20,6 +20,8 @@ import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
 import { days } from "../../utils/Constants";
 import ConfirmationModal from "../../components/commons/Modal/ConfirmationModal";
 import notifications from './notification.ts';
+import { customAlphabet } from 'nanoid/non-secure'
+const nanoid = customAlphabet('1234567890', 6)
 
 const Index = () => {
   const icons = useIcons()
@@ -34,10 +36,6 @@ const Index = () => {
   const [dataAlarm, setDataAlarm] = useState(
     JSON.parse(localStorage.getItem("alarm_data")) ?? []
   );
-
-  const alarmSound = new Howl({
-    src: ["/alarm.mp3"],
-  });
 
   useEffect(() => {
     localStorage.setItem("alarm_data", JSON.stringify(dataAlarm));
@@ -89,10 +87,14 @@ const Index = () => {
 
   const handleChangeAlarm = (time) => {
     if (currentAlarmIndex === null || currentAlarmIndex === undefined) {
+      const uuid = nanoid();
+
       setDataAlarm([
         ...dataAlarm,
-        { time: time, selectedDays: [], isActive: true },
+        { id: uuid, time: time, selectedDays: [], isActive: true },
       ]);
+
+      notifications.schedule(uuid, moment(time).format("HH"), moment(time).format("mm"))
     } else {
       setDataAlarm(
         dataAlarm.map((item, index) => {
@@ -101,7 +103,6 @@ const Index = () => {
         })
       );
     }
-    notifications.schedule(moment(time).format("HH"), moment(time).format("mm"))
     setIsOpenTime(false);
   };
 
@@ -151,7 +152,7 @@ const Index = () => {
       <VStack w="100%" mb="5rem" mt="3">
         {dataAlarm?.map((item, index) => (
           <Box
-            key={index}
+            key={item.id}
             w="100%"
             bg={colorMode === "light" ? 'white' : 'mutedBase.light'}
             pt="2"
