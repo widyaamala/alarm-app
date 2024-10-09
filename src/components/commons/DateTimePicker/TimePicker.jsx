@@ -7,7 +7,7 @@ import { days } from "../../../utils/Constants";
 const TimePicker = ({ value, handleChange, toggle, isNew }) => {
   const [tempTime, setTempTime] = useState(value ?? new Date());
   const [tempLabel, setTempLabel] = useState("");
-  const [tempSelectedDays, setTempSelectedDays] = useState([]);
+  const [tempSelectedDays, setTempSelectedDays] = useState(days.map(day => day.value));
 
   const handleSelect = (time) => {
     setTempTime(time.value);

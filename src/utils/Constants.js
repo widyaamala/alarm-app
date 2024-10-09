@@ -1,11 +1,11 @@
 export const days = [
-  { id: 0, label: 'S', value: 'Sun' },
-  { id: 1, label: 'M', value: 'Mon' },
-  { id: 2, label: 'T', value: 'Tue' },
-  { id: 3, label: 'W', value: 'Wed' },
-  { id: 4, label: 'T', value: 'Thu' },
-  { id: 5, label: 'F', value: 'Fri' },
-  { id: 6, label: 'S', value: 'Sat' },
+  { value: 0, label: 'S', name: 'Sun' },
+  { value: 1, label: 'M', name: 'Mon' },
+  { value: 2, label: 'T', name: 'Tue' },
+  { value: 3, label: 'W', name: 'Wed' },
+  { value: 4, label: 'T', name: 'Thu' },
+  { value: 5, label: 'F', name: 'Fri' },
+  { value: 6, label: 'S', name: 'Sat' },
 ]
 
 export const footerTab = [

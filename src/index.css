@@ -14,6 +14,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body.overlay-active {
+  pointer-events: none;
+}
+
+body.overlay-active .overlay-picker {
+  pointer-events: auto !important;
+}
+
 a {
   font-weight: 500;
   color: #000080;

@@ -82,6 +82,7 @@ const Index = () => {
     setCurrentAlarmTime(time);
     setCurrentAlarmIndex(index);
     setIsOpenTime(!isOpenTime);
+    document.body.classList.add('overlay-active');
   };
 
   const handleChangeAlarm = (time, days, label) => {
@@ -90,8 +91,9 @@ const Index = () => {
 
       setDataAlarm([
         ...dataAlarm,
-        { id: uuid, time: time, selectedDays: [], isActive: true },
+        { id: uuid, time: time, selectedDays: days, label, isActive: true },
       ]);
+      setCollapsedIndex(dataAlarm.length);
 
       notifications.schedule(uuid, moment(time).format("HH"), moment(time).format("mm"))
     } else {
@@ -104,6 +106,7 @@ const Index = () => {
       setCollapsedIndex(currentAlarmIndex); 
     }
     setIsOpenTime(false);
+    document.body.classList.remove('overlay-active');
   };
 
   const showDeleteModal = (index) => {
@@ -120,6 +123,7 @@ const Index = () => {
 
   const handleCancelAlarm = () => {
     setIsOpenTime(false);
+    document.body.classList.remove('overlay-active');
   };
 
   const handleActivateAlarm = (indexAlarm) => {
@@ -143,7 +147,11 @@ const Index = () => {
     } else if (selectedDays?.length === 7) {
       return "Everyday";
     } else {
-      return selectedDays?.join(", ");
+      const daysName = selectedDays.map((item) => {
+        const day = days.find((d) => d.value === item);
+        return day ? day.name : null
+      })
+      return daysName?.join(", ");
     }
   };
 
@@ -245,6 +253,7 @@ const Index = () => {
             setCurrentAlarmIndex(null);
             setCurrentAlarmTime(null);
             setIsOpenTime(!isOpenTime);
+            document.body.classList.add('overlay-active');
           }}
         >
           +
