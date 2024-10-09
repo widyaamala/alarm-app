@@ -6,14 +6,10 @@ import {
   VStack,
   Switch,
   Text,
-  Input,
-  Image,
-  Collapse,
   useColorMode,
   useColorModeValue
 } from "@chakra-ui/react";
 import moment from "moment";
-import useIcons from "../../assets/icons";
 
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
 import { days } from "../../utils/Constants";
@@ -23,10 +19,7 @@ import { customAlphabet } from 'nanoid/non-secure'
 const nanoid = customAlphabet('1234567890', 6)
 
 const Index = () => {
-  const icons = useIcons()
   const { colorMode } = useColorMode()
-  const excludeElements = ['input', 'button', 'switch', 'label-icon', 'delete-icon'];
-  const [collapsedIndex, setCollapsedIndex] = useState(null);
   const [isOpenTime, setIsOpenTime] = useState(false);
   const [currentAlarmTime, setCurrentAlarmTime] = useState(null);
   const [currentAlarmIndex, setCurrentAlarmIndex] = useState(null);
@@ -45,39 +38,6 @@ const Index = () => {
     handler(event);
   };
 
-  const handleCollapseAlarm = (event, indexAlarm) => {
-    if (excludeElements.includes(event.target.localName)) {
-      return;
-    }
-
-    if (collapsedIndex === indexAlarm) setCollapsedIndex(null);
-    else setCollapsedIndex(indexAlarm);
-  };
-
-  const handleChangeLabel = (value, index) => {
-    setDataAlarm(
-      dataAlarm.map((alarm, i) => {
-        if (i === index) alarm.label = value;
-        return alarm;
-      })
-    )
-  }
-
-  const handleClickDay = (day, index) => {
-    setDataAlarm((prevData) =>
-      prevData.map((alarm, i) =>
-        i === index
-          ? {
-              ...alarm,
-              selectedDays: alarm.selectedDays.includes(day.value)
-                ? alarm.selectedDays.filter((d) => d !== day.value)
-                : [...alarm.selectedDays, day.value],
-            }
-          : alarm
-      )
-    );
-  };
-
   const handleTimeClick = (time, index) => {
     setCurrentAlarmTime(time);
     setCurrentAlarmIndex(index);
@@ -93,17 +53,19 @@ const Index = () => {
         ...dataAlarm,
         { id: uuid, time: time, selectedDays: days, label, isActive: true },
       ]);
-      setCollapsedIndex(dataAlarm.length);
 
       notifications.schedule(uuid, moment(time).format("HH"), moment(time).format("mm"))
     } else {
       setDataAlarm(
         dataAlarm.map((item, index) => {
-          if (index === currentAlarmIndex) item.time = time;
+          if (index === currentAlarmIndex) {
+            item.time = time;
+            item.selectedDays = days;
+            item.label = label;
+          }
           return item;
         })
       );
-      setCollapsedIndex(currentAlarmIndex); 
     }
     setIsOpenTime(false);
     document.body.classList.remove('overlay-active');
@@ -111,14 +73,17 @@ const Index = () => {
 
   const showDeleteModal = (index) => {
     setIsShowDeleteModal(!isShowDeleteModal);
-    setIndexDataDeleted(index)
+    setIndexDataDeleted(index);
+    document.body.classList.remove('overlay-active');
   }
 
   const handleDeleteAlarm = () => {
     let listAlarm = [...dataAlarm];
     listAlarm.splice(indexDataDeleted, 1);
     setDataAlarm(listAlarm);
-    showDeleteModal(null)
+    showDeleteModal(null);
+    setIsOpenTime(false);
+    document.body.classList.remove('overlay-active');
   };
 
   const handleCancelAlarm = () => {
@@ -169,14 +134,13 @@ const Index = () => {
             my="1"
             borderRadius="12px"
             sx={{ boxShadow: '0px 8px 20px -4px #1C37BE1A' }}
-            onClick={(e) => handleCollapseAlarm(e, index)}
+            onClick={(e) => handleTimeClick(item.time, index)}
           >
             <HStack justifyContent="space-between" alignItems="center">
               <VStack alignItems="start" gap="0">
                 <Text
                   fontSize="2rem"
                   textStyle="semi"
-                  onClick={stopPropagation(() => handleTimeClick(item.time, index))}
                 >
                   {moment(item?.time)?.format("HH:mm")}
                 </Text>
@@ -191,49 +155,6 @@ const Index = () => {
                 onChange={stopPropagation(() => handleActivateAlarm(index))}
               />
             </HStack>
-            <Collapse in={collapsedIndex === index} animateOpacity>
-              <HStack justify="space-between" alignItems="center" my="4">
-                <HStack spacing={2}>
-                  {days.map((day) => (
-                    <Button
-                      key={day.value}
-                      variant={
-                        item?.selectedDays?.includes(day.value)
-                          ? "solidPrimary"
-                          : "outlinePrimary"
-                      }
-                      borderRadius="100%"
-                      w="30px"
-                      minW="30px"
-                      h="30px"
-                      px="0"
-                      fontSize="14px"
-                      onClick={stopPropagation(() => handleClickDay(day, index))}
-                    >
-                      {day.label}
-                    </Button>
-                  ))}
-                </HStack>
-              </HStack>
-              <HStack alignItems="center" my="3">
-                <Image src={icons.label} w="1em" h="1em" />
-                <Input
-                  placeholder="Add Label"
-                  variant="unstyled"
-                  fontSize="0.85rem"
-                  value={item?.label}
-                  onChange={stopPropagation((e) => handleChangeLabel(e?.target?.value, index))}
-                />
-              </HStack>
-              <HStack
-                alignItems="center"
-                my="3"
-                onClick={stopPropagation(() => showDeleteModal(index))}
-              >
-                <Image src={icons.delete} w="1em" h="1em" />
-                <Text fontSize="0.85rem">Delete</Text>
-              </HStack>
-            </Collapse>
           </Box>
         ))}
       </VStack>
@@ -261,10 +182,13 @@ const Index = () => {
       </HStack>
       {isOpenTime && (
         <TimePicker
+          label={dataAlarm[currentAlarmIndex]?.label ?? ""}
+          selectedDays={dataAlarm[currentAlarmIndex]?.selectedDays}
+          isNew={currentAlarmIndex === null}
           value={currentAlarmTime ? new Date(currentAlarmTime) : null}
           handleChange={handleChangeAlarm}
           toggle={handleCancelAlarm}
-          isNew={currentAlarmIndex === null}
+          handleDelete={() => showDeleteModal(currentAlarmIndex)}
         />
       )}
       <ConfirmationModal

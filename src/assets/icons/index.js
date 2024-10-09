@@ -7,13 +7,9 @@ import ArrowBackIcon from "./ArrowBack.svg";
 import BadgeIcon from "./Badge.svg";
 import CalendarMonthIcon from "./CalendarMonth.svg";
 import ContactPhoneIcon from "./ContactPhone.svg";
-import DeleteIcon from "./Delete.svg";
-import DeleteDarkModeIcon from "./DeleteDarkMode.svg";
 import EmailIcon from "./Email.svg";
 import ErrorIcon from "./Error.svg";
 import ErrorDarkModeIcon from "./ErrorDarkMode.svg";
-import LabelIcon from "./Label.svg";
-import LabelDarkModeIcon from "./LabelDarkMode.svg";
 import LibraryMusicIcon from "./LibraryMusic.svg";
 import LibraryMusicActiveIcon from "./LibraryMusicActive.svg";
 import LibraryMusicActiveDarkModeIcon from "./LibraryMusicActiveDarkMode.svg";
@@ -53,10 +49,8 @@ const useIcons = () => {
     badge: BadgeIcon,
     calendarMonth: CalendarMonthIcon,
     contactPhone: ContactPhoneIcon,
-    delete: colorMode === "dark" ? DeleteDarkModeIcon : DeleteIcon,
     email: EmailIcon,
     error: colorMode === "dark" ? ErrorDarkModeIcon : ErrorIcon,
-    label: colorMode === "dark" ? LabelDarkModeIcon : LabelIcon,
     libraryMusic: LibraryMusicIcon,
     libraryMusicActive: colorMode === "dark" ? LibraryMusicActiveDarkModeIcon : LibraryMusicActiveIcon,
     moreVert: colorMode === "dark" ? MoreVertDarkModeIcon : MoreVertIcon,

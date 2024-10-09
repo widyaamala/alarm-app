@@ -12,11 +12,14 @@ const getArticles = (param) => {
         params: param,
       })
 
-      response = {
-        // data: response?.data, //for url article posts
-        data: response?.data?.data?.posts,
-        total: response?.totalCount ?? 100
+      if (response) {
+        response = {
+          // data: response?.data, //for url article posts
+          data: response?.data?.data ? response?.data?.data?.posts : response?.data,
+          total: response?.totalCount ?? 100
+        }
       }
+
       return response
     },
   })

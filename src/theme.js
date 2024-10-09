@@ -81,7 +81,6 @@ const theme = extendTheme({
         borderRadius: '20px',
         fontWeight: '500',
         height: 'auto',
-        width: '100px',
         padding: '10px',
         display: 'flex',
         alignItems: 'center',
