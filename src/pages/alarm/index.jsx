@@ -35,6 +35,7 @@ const Index = () => {
 
   const stopPropagation = (handler) => (event) => {
     event.stopPropagation();
+    document.body.classList.remove('overlay-active');
     handler(event);
   };
 
@@ -92,9 +93,11 @@ const Index = () => {
   };
 
   const handleActivateAlarm = (indexAlarm) => {
-    setDataAlarm(
-      dataAlarm.map((item, index) => {
-        if (index === indexAlarm) item.isActive = !item.isActive;
+    setDataAlarm((prevDataAlarm) =>
+      prevDataAlarm.map((item, index) => {
+        if (index === indexAlarm) {
+          return { ...item, isActive: !item.isActive };
+        }
         return item;
       })
     );
