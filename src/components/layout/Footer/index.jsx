@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, Box, VStack, Text, Image, useColorModeValue } from "@chakra-ui/react"
+import { Tabs, TabList, Tab, Box, VStack, Text, Image, useColorMode, useColorModeValue } from "@chakra-ui/react"
 import { useNavigate, useLocation } from "react-router-dom"
 import { footerTab } from "../../../utils/Constants"
 import useIcons from "../../../assets/icons"
@@ -6,6 +6,7 @@ import useIcons from "../../../assets/icons"
 const Footer = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
+  const { colorMode } = useColorMode()
   const activeTab = footerTab?.findIndex((footer) => footer.url === pathname)
 
   return (
@@ -26,7 +27,7 @@ const Footer = () => {
                   <Text
                     color={
                       pathname?.includes(item.url)
-                        ? useColorModeValue('primary.light', 'primary.dark')
+                        ? colorMode === 'dark' ? 'white' : 'primary.light'
                         : useColorModeValue('muted.light', 'muted.dark')}
                     fontSize="12px"
                   >

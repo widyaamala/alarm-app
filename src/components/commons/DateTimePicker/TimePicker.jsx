@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DateTimePicker from "react-weblineindia-time-picker";
 import "./datetimepicker.css";
-import { Box, Button, HStack, Input, Select, Switch } from "@chakra-ui/react";
-import { numberTypeException} from "../../../utils/Constants";
+import { Box, Button, HStack, Input, Select, Switch, useColorMode } from "@chakra-ui/react";
 
 const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew, handleChange, toggle, handleDelete }) => {
+  const { colorMode } = useColorMode()
   const [tempTime, setTempTime] = useState(value ?? new Date());
   const [tempLabel, setTempLabel] = useState(label || "");
   const [tempIsRepeat, setTempIsRepeat] = useState(isNew ? true : isRepeat);
   const [tempRepeatTime, setTempRepeatTime] = useState(repeatTime || 1);
   const [tempRepeatCategory, setTempRepeatCategory] = useState(repeatCategory || "m");
+  const [repeatTimeOptions, setRepeatTimeOptions] = useState([]);
+
+  useEffect(() => {
+    let maxValue;
+    if (tempRepeatCategory === 'm') maxValue = 60;
+    else if (tempRepeatCategory === 'h') maxValue = 24;
+    else if (tempRepeatCategory === 'd') maxValue = 31;
+
+    const options = Array.from({ length: maxValue }, (_, i) => i + 1);
+    setRepeatTimeOptions(options);
+  }, [tempRepeatCategory]);
 
   const handleSelect = (time) => {
     setTempTime(time.value);
@@ -65,17 +76,19 @@ const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew,
         {tempIsRepeat && (
           <HStack alignItems="center" justifyContent="end" mb="6">
             <HStack w="60%">
-              <Box w="40%">
-                <Input
-                  type="number"
-                  min="0"
+              <Box w="50%">
+                <Select
                   variant="flushed"
                   fontSize="0.85rem"
-                  textAlign="center"
                   value={tempRepeatTime}
-                  onChange={(e) => setTempRepeatTime(e.target.value)}
-                  onKeyDown={(e) => numberTypeException.includes(e.key) && e.preventDefault()}
-                />
+                  onChange={(e) => setTempRepeatTime(Number(e.target.value))}
+                >
+                  {repeatTimeOptions?.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
               </Box>
               <Select
                 variant="flushed"
@@ -113,7 +126,7 @@ const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew,
               w="90px"
               textStyle="light"
               fontSize="14px"
-              _focus={{ bg: "white" }}
+              bg={colorMode === 'dark' ? 'gray' : 'gray.100'}
             >
               Cancel
             </Button>

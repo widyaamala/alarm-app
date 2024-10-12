@@ -1,4 +1,4 @@
-import { HStack, Image, List, ListItem, Text, VStack, useColorModeValue } from "@chakra-ui/react";
+import { HStack, Image, List, ListItem, Text, VStack, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import useIcons from "../../assets/icons";
 
 const TrackList = ({
@@ -7,6 +7,7 @@ const TrackList = ({
   isPlaying,
   selectedMusic
 }) => {
+  const { colorMode } = useColorMode()
   const icons = useIcons()
 
   return (
@@ -20,6 +21,7 @@ const TrackList = ({
             py="2"
             borderRadius="12px"
             bg={useColorModeValue('mutedBase.light', 'mutedBase.dark')}
+            sx={{ boxShadow: colorMode === 'light' ? '0px 8px 20px -4px #e5e5e5' : 'none' }}
           >
             <Image
               alt="icon player"
@@ -45,7 +47,7 @@ const TrackList = ({
                 fontSize="14px"
                 color={
                   selectedMusic && selectedMusic.id === track.id && isPlaying
-                    ? useColorModeValue('primary.light', 'tertiary.dark')
+                    ? useColorModeValue('primary.light', 'primary.dark')
                     : useColorModeValue('main.light', 'main.dark')
                 }
               >

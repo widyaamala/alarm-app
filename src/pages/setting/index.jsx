@@ -40,7 +40,7 @@ const Setting = () => {
           <Switch
             id="theme-mode"
             ml="auto"
-            defaultChecked={colorMode === "light"}
+            defaultChecked={colorMode === "dark"}
             isChecked={colorMode === "dark"}
             onChange={toggleColorMode}
           />

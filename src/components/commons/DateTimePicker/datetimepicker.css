@@ -9,7 +9,7 @@
   margin: auto;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(26, 26, 26, 0.7);
 }
 
 .picker {
@@ -23,4 +23,38 @@
 
 .p-calendar {
   width: 100%;
+}
+
+.p-datepicker.p-datepicker-timeonly.p-input-overlay-visible {
+  background: rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: none !important;
+  top: 50px !important;
+}
+
+.p-datepicker .p-timepicker .p-link {
+  background: #d2b6b66b !important;
+  padding: 6px 6px 5px 6px !important;
+  color: #BD2E32 !important;
+  font-size: 10px !important;
+}
+
+.p-datepicker .p-timepicker .p-link span {
+  font-size: 11px !important;
+  margin: 0 !important;
+}
+
+.p-inputtext {
+  width: 100% !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  border-color: #b3b3b3 !important;
+}
+
+.p-datepicker .p-timepicker span {
+  margin: 5px !important;
+  font-size: 23px !important;
+  font-weight: 600 !important;
+  color: #BD2E32 !important;
 }

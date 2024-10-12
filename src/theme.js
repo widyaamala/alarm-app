@@ -2,6 +2,10 @@ import { extendTheme } from "@chakra-ui/react"
 import '@fontsource/open-sans'
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: 'dark',
+    useSystemColorMode: false,
+  },
   fonts: {
     heading: `'Open Sans', sans-serif`,
     body: `'Open Sans', sans-serif`,
@@ -34,41 +38,36 @@ const theme = extendTheme({
   },
   colors: {
     main: {
-      light: '#212121',
+      light: '#1c1c1c',
       dark: '#efefef'
     },
     primary: {
-      light: '#272c6f',
-      // dark: '#9c5bee'
-      dark: '#484c86'
+      light: '#D32F2F',
+      dark: '#bd2e32'
     },
     secondary: {
-      light: '#484c86',
-      dark: '#efeefc'
+      light: '#9E9E9E',
+      dark: '#616161'
     },
     tertiary: {
-      light: '#636899',
-      dark: '#9188e5'
+      light: '#757575',
+      dark: '#BDBDBD'
     },
     base: {
-      light: '#b6b9d26b',
-      dark: '#e3e1ff'
+      light: '#E0E0E0',
+      dark: '#424242'
     },
     mutedBase: {
-      light: '#b6b9d236',
-      dark: '#b6b9d236'
-    },
-    layout: {
-      light: '#ecedf78f',
-      dark: '#1a1a1df5'
+      light: '#fff',
+      dark: '#474747'
     },
     background: {
-      light: '#fff',
-      dark: '#161616'
+      light: '#efefef',
+      dark: '#1e1e1e'
     },
     muted: {
-      light: '#b6b9d2',
-      dark: '#b5b5b6'
+      light: '#9E9E9E',
+      dark: '#757575'
     },
     success: '#1CB289',
     danger: '#C53030'
@@ -175,7 +174,7 @@ const theme = extendTheme({
     Modal: {
       baseStyle: (props) => ({
         dialog: {
-          background: props.colorMode === 'light' ? 'background.light' : 'background.dark'
+          background: props.colorMode === 'light' ? 'mutedBase.light' : 'mutedBase.dark'
         }
       })
     },
@@ -215,7 +214,7 @@ const theme = extendTheme({
         track: {
           // bg: 'tertiary',
           _checked: {
-            bg: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark',
+            bg: props.colorMode === 'light' ? 'primary.light' : 'primary.dark',
           },
         },
       })
@@ -223,10 +222,10 @@ const theme = extendTheme({
     Slider: {
       baseStyle: (props) => ({
         thumb: {
-          bg: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark'
+          bg: props.colorMode === 'light' ? 'main.light' : 'tertiary.dark'
         },
         filledTrack: {
-          bg: props.colorMode === 'light' ? 'tertiary.light' : 'tertiary.dark'
+          bg: props.colorMode === 'light' ? 'main.light' : 'tertiary.dark'
         }
       })
     }
@@ -234,7 +233,7 @@ const theme = extendTheme({
   styles: {
     global: (props) => ({
       ".picker": {
-        backgroundColor: props.colorMode === 'light' ? 'background.light' : 'background.dark',
+        backgroundColor: props.colorMode === 'light' ? 'mutedBase.light' : 'mutedBase.dark',
       },
     }),
   },

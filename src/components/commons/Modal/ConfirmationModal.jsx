@@ -10,6 +10,7 @@ import {
   Image,
   HStack,
   Text,
+  useColorMode,
   useColorModeValue
 } from "@chakra-ui/react"
 import useIcons from "../../../assets/icons";
@@ -26,6 +27,7 @@ function ConfirmationModal({
   customIcon,
   confirmationTitle,
 }) {
+  const { colorMode } = useColorMode()
   const icons = useIcons()
 
   return (
@@ -55,7 +57,12 @@ function ConfirmationModal({
           </ModalBody>
           <ModalFooter p='0'>
             <HStack justifyContent="end">
-              <Button onClick={toggle} textStyle="light" fontSize="14px" _focus={{ bg: "white" }}>
+              <Button
+                onClick={toggle}
+                textStyle="light"
+                fontSize="14px" 
+                bg={colorMode === 'dark' ? 'gray' : 'gray.100'}
+              >
                 Cancel
               </Button>
               <Button onClick={confirm} textStyle="light" fontSize="14px" variant="primary">

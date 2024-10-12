@@ -62,7 +62,7 @@ const ChangePassword = () => {
         alignItems="center"
         w="100vw"
         h="100vh"
-        bg={useColorModeValue("layout.light", "layout.dark")}
+        bg={useColorModeValue("background.light", "background.dark")}
         p="10"
       >
         <Box mt="2rem" w="100%">

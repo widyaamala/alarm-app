@@ -27,7 +27,7 @@ const DetailArticle = () => {
   }, [data]);
 
   return (
-    <VStack align="start">
+    <VStack align="start" w="100%">
       {isLoading ? (
         <VStack>
           <Skeleton h="85px" />

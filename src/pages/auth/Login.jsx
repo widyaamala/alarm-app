@@ -51,7 +51,7 @@ const Login = () => {
 
   return (
     <>
-      <VStack justify='center' alignItems='center' w='100vw' h='100vh' bg={useColorModeValue('layout.light', 'layout.dark')} px="10">
+      <VStack justify='center' alignItems='center' w='100vw' h='100vh' bg={useColorModeValue('background.light', 'background.dark')} px="10">
         <Box mt='2rem' w="100%">
           <Heading textStyle="bold">
             Login

@@ -26,7 +26,7 @@ const Layout = () => {
   }, [location])
 
   return (
-    <VStack w='100vw' h='100vh' gap='0' bg={useColorModeValue('layout.light', 'layout.dark')} overflowY='hidden'>
+    <VStack w='100vw' h='100vh' gap='0' bg={useColorModeValue('background.light', 'background.dark')} overflowY='hidden'>
       <Header />
       <VStack id='wrapper-content' w="100%" h='90vh' py="2" px="5" overflowY='auto'>
         <Outlet />

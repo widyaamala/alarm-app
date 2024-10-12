@@ -76,44 +76,13 @@ h1 {
 
 .glass-background {
   /* background: rgba(255, 255, 255, 0.2) !important; */
-  background: #272c6f82 !important;
+  background: #6f272782 !important;
   color: #fff !important;
   font-weight: 500 !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
   backdrop-filter: blur(10px) !important;
 }
 
-/* Timepicker */
-.p-datepicker.p-datepicker-timeonly.p-input-overlay-visible {
-  background: rgba(255, 255, 255, 0.7) !important;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
-  backdrop-filter: blur(10px) !important;
-  border: none !important;
-  top: 50px !important;
-}
-
-.p-datepicker .p-timepicker .p-link {
-  background: #b6b9d26b !important;
-  padding: 6px 6px 5px 6px !important;
-  color: #272c6f !important;
-  font-size: 10px !important;
-}
-
-.p-datepicker .p-timepicker .p-link span {
-  font-size: 11px !important;
-  margin: 0 !important;
-}
-
-.p-inputtext {
-  width: 100% !important;
-  font-size: 20px !important;
-  font-weight: 600 !important;
-  border-color: #b3b3b3 !important;
-}
-
-.p-datepicker .p-timepicker span {
-  margin: 5px !important;
-  font-size: 23px !important;
-  font-weight: 600 !important;
-  color: #484c86 !important;
+.infinite-scroll-component__outerdiv {
+  width: 100%;
 }

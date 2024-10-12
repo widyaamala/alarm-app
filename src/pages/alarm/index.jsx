@@ -12,7 +12,6 @@ import {
 import moment from "moment";
 
 import TimePicker from "../../components/commons/DateTimePicker/TimePicker";
-import { days } from "../../utils/Constants";
 import ConfirmationModal from "../../components/commons/Modal/ConfirmationModal";
 import notifications from './notification.ts';
 import { customAlphabet } from 'nanoid/non-secure'
@@ -124,13 +123,13 @@ const Index = () => {
           <Box
             key={item.id}
             w="100%"
-            bg={colorMode === "light" ? 'white' : 'mutedBase.light'}
+            bg={useColorModeValue('mutedBase.light', 'mutedBase.dark')}
             pt="2"
             pb="4"
             px="4"
             my="1"
             borderRadius="12px"
-            sx={{ boxShadow: '0px 8px 20px -4px #1C37BE1A' }}
+            sx={{ boxShadow: colorMode === 'light' ? '0px 8px 20px -4px #e5e5e5' : 'none' }}
             onClick={(e) => handleTimeClick(item, index)}
           >
             <HStack justifyContent="space-between" alignItems="center">
