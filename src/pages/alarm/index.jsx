@@ -21,7 +21,7 @@ const nanoid = customAlphabet('1234567890', 6)
 const Index = () => {
   const { colorMode } = useColorMode()
   const [isOpenTime, setIsOpenTime] = useState(false);
-  const [currentAlarmTime, setCurrentAlarmTime] = useState(null);
+  const [currentAlarmData, setCurrentAlarmData] = useState(null);
   const [currentAlarmIndex, setCurrentAlarmIndex] = useState(null);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [indexDataDeleted, setIndexDataDeleted] = useState(null)
@@ -39,20 +39,22 @@ const Index = () => {
     handler(event);
   };
 
-  const handleTimeClick = (time, index) => {
-    setCurrentAlarmTime(time);
+  const handleTimeClick = (item, index) => {
+    setCurrentAlarmData(item);
     setCurrentAlarmIndex(index);
     setIsOpenTime(!isOpenTime);
     document.body.classList.add('overlay-active');
   };
 
-  const handleChangeAlarm = (time, days, label) => {
+  const handleChangeAlarm = (value) => {
+    const { time, label, isRepeat, repeatTime, repeatCategory } = value;
+
     if (currentAlarmIndex === null || currentAlarmIndex === undefined) {
       const uuid = nanoid();
 
       setDataAlarm([
         ...dataAlarm,
-        { id: uuid, time: time, selectedDays: days, label, isActive: true },
+        { id: uuid, time: time, label, isRepeat, repeatTime, repeatCategory, isActive: true },
       ]);
 
       notifications.schedule(uuid, moment(time).format("HH"), moment(time).format("mm"))
@@ -60,11 +62,13 @@ const Index = () => {
       setDataAlarm(
         dataAlarm.map((item, index) => {
           if (index === currentAlarmIndex) {
-            item.time = time;
-            item.selectedDays = days;
-            item.label = label;
+            item.time = time
+            item.label = label
+            item.isRepeat = isRepeat
+            item.repeatTime = repeatTime
+            item.repeatCategory = repeatCategory
           }
-          return item;
+          return item
         })
       );
     }
@@ -103,24 +107,14 @@ const Index = () => {
     );
   };
 
-  const getDayLabel = (time, selectedDays) => {
+  const getDayLabel = (time) => {
     const currentDate = new Date();
     const alarmTime = new Date();
     const [hours, minutes] = moment(time).format("HH:mm")?.split(":");
     alarmTime.setHours(hours);
     alarmTime.setMinutes(minutes);
 
-    if (!selectedDays?.length) {
-      return alarmTime > currentDate ? "Today" : "Tomorrow";
-    } else if (selectedDays?.length === 7) {
-      return "Everyday";
-    } else {
-      const daysName = selectedDays.map((item) => {
-        const day = days.find((d) => d.value === item);
-        return day ? day.name : null
-      })
-      return daysName?.join(", ");
-    }
+    return alarmTime > currentDate ? "Today" : "Tomorrow";
   };
 
   return (
@@ -137,7 +131,7 @@ const Index = () => {
             my="1"
             borderRadius="12px"
             sx={{ boxShadow: '0px 8px 20px -4px #1C37BE1A' }}
-            onClick={(e) => handleTimeClick(item.time, index)}
+            onClick={(e) => handleTimeClick(item, index)}
           >
             <HStack justifyContent="space-between" alignItems="center">
               <VStack alignItems="start" gap="0">
@@ -148,7 +142,7 @@ const Index = () => {
                   {moment(item?.time)?.format("HH:mm")}
                 </Text>
                 <Text textStyle="xsmall">
-                  {getDayLabel(item?.time, item?.selectedDays)}
+                  {getDayLabel(item?.time)}
                 </Text>
               </VStack>
               <Switch
@@ -175,7 +169,7 @@ const Index = () => {
           fontSize="30px"
           onClick={() => {
             setCurrentAlarmIndex(null);
-            setCurrentAlarmTime(null);
+            setCurrentAlarmData(null);
             setIsOpenTime(!isOpenTime);
             document.body.classList.add('overlay-active');
           }}
@@ -185,10 +179,12 @@ const Index = () => {
       </HStack>
       {isOpenTime && (
         <TimePicker
-          label={dataAlarm[currentAlarmIndex]?.label ?? ""}
-          selectedDays={dataAlarm[currentAlarmIndex]?.selectedDays}
+          label={currentAlarmData?.label ?? ""}
+          value={currentAlarmData ? new Date(currentAlarmData?.time) : null}
+          isRepeat={currentAlarmData?.isRepeat}
+          repeatTime={currentAlarmData?.repeatTime}
+          repeatCategory={currentAlarmData?.repeatCategory}
           isNew={currentAlarmIndex === null}
-          value={currentAlarmTime ? new Date(currentAlarmTime) : null}
           handleChange={handleChangeAlarm}
           toggle={handleCancelAlarm}
           handleDelete={() => showDeleteModal(currentAlarmIndex)}

@@ -1,13 +1,15 @@
 import { useState } from "react";
 import DateTimePicker from "react-weblineindia-time-picker";
 import "./datetimepicker.css";
-import { Box, Button, HStack, Input } from "@chakra-ui/react";
-import { days } from "../../../utils/Constants";
+import { Box, Button, HStack, Input, Select, Switch } from "@chakra-ui/react";
+import { numberTypeException} from "../../../utils/Constants";
 
-const TimePicker = ({ value, label, selectedDays, isNew, handleChange, toggle, handleDelete }) => {
+const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew, handleChange, toggle, handleDelete }) => {
   const [tempTime, setTempTime] = useState(value ?? new Date());
   const [tempLabel, setTempLabel] = useState(label || "");
-  const [tempSelectedDays, setTempSelectedDays] = useState(selectedDays || days.map(day => day.value));
+  const [tempIsRepeat, setTempIsRepeat] = useState(isNew ? true : isRepeat);
+  const [tempRepeatTime, setTempRepeatTime] = useState(repeatTime || 1);
+  const [tempRepeatCategory, setTempRepeatCategory] = useState(repeatCategory || "m");
 
   const handleSelect = (time) => {
     setTempTime(time.value);
@@ -15,21 +17,19 @@ const TimePicker = ({ value, label, selectedDays, isNew, handleChange, toggle, h
 
   const handleOk = () => {
     if (handleChange) {
-      handleChange(tempTime, tempSelectedDays, tempLabel);
+      handleChange({
+        time: tempTime,
+        label: tempLabel,
+        isRepeat: tempIsRepeat,
+        repeatTime: tempIsRepeat ? tempRepeatTime : null,
+        repeatCategory: tempIsRepeat ? tempRepeatCategory : null
+      });
     }
   };
 
   const handleCancel = () => {
     setTempTime(value ?? new Date());
     if (toggle) toggle();
-  };
-
-  const handleDayClick = (day) => {
-    if (tempSelectedDays.includes(day.value)) {
-      setTempSelectedDays(tempSelectedDays.filter((d) => d !== day.value));
-    } else {
-      setTempSelectedDays([...tempSelectedDays, day.value]);
-    }
   };
 
   return (
@@ -41,32 +41,10 @@ const TimePicker = ({ value, label, selectedDays, isNew, handleChange, toggle, h
           onChange={handleSelect}
           timeOnly
         />
-        <HStack justify="space-between" alignItems="center" my="4">
-          <HStack spacing={2.5} justify="center" >
-            {days?.map((day) => (
-              <Button
-                key={day.value}
-                variant={
-                  tempSelectedDays?.includes(day.value)
-                    ? "solidPrimary"
-                    : "outlinePrimary"
-                }
-                borderRadius="100%"
-                w="30px"
-                minW="30px"
-                h="30px"
-                px="0"
-                fontSize="14px"
-                onClick={() => handleDayClick(day)}
-              >
-                {day.label}
-              </Button>
-            ))}
-          </HStack>
-        </HStack>
-        <HStack alignItems="center" justify="space-between" my="5">
-          <Box fontWeight="bold" w="40%">Label:</Box>
+        <HStack alignItems="center" justify="space-between" mt="6">
+          <Box fontWeight="bold" w="40%" textStyle="small">Label</Box>
           <Input
+            w="60%"
             textAlign="right"
             placeholder="Add Label"
             variant="unstyled"
@@ -75,6 +53,43 @@ const TimePicker = ({ value, label, selectedDays, isNew, handleChange, toggle, h
             onChange={(e) => setTempLabel(e.target.value)}
           />
         </HStack>
+        <HStack alignItems="center" justify="space-between" mt="2">
+          <Box fontWeight="bold" textStyle="small">Repeat</Box>
+          <Switch
+            ml="auto"
+            id="repeat-activated"
+            isChecked={tempIsRepeat}
+            onChange={() => setTempIsRepeat(!tempIsRepeat)}
+          />
+        </HStack>
+        {tempIsRepeat && (
+          <HStack alignItems="center" justifyContent="end" mb="6">
+            <HStack w="60%">
+              <Box w="40%">
+                <Input
+                  type="number"
+                  min="0"
+                  variant="flushed"
+                  fontSize="0.85rem"
+                  textAlign="center"
+                  value={tempRepeatTime}
+                  onChange={(e) => setTempRepeatTime(e.target.value)}
+                  onKeyDown={(e) => numberTypeException.includes(e.key) && e.preventDefault()}
+                />
+              </Box>
+              <Select
+                variant="flushed"
+                fontSize="0.85rem"
+                onChange={(event) => setTempRepeatCategory(event.target.value)}
+                value={tempRepeatCategory}
+              >
+                <option value='m'>Minute</option>
+                <option value='h'>Hour</option>
+                <option value='d'>Day</option>
+              </Select>
+            </HStack>
+          </HStack>
+        )}
         <HStack mt="8">
           {!isNew && (
             <Button

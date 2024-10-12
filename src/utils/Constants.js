@@ -8,6 +8,8 @@ export const days = [
   { value: 6, label: 'S', name: 'Sat' },
 ]
 
+export const numberTypeException = ["e", "E", "+", "-", ".", ","]
+
 export const footerTab = [
   { tab: 'Alarm', url: '/alarm', icon: "alarm", iconActive: "alarmActive" },
   { tab: 'Audio', url: '/audio', icon: "libraryMusic", iconActive: "libraryMusicActive" },

@@ -128,6 +128,16 @@ const theme = extendTheme({
         }
       })
     },
+    Select: {
+      baseStyle : (props) => ({
+        field: {
+          fontSize: '14px',
+          fontWeight: 500,
+          height: "50px",
+          color: props.colorMode === 'light' ? 'main.light' : 'main.dark'
+        }
+      })
+    },
     Link: {
       baseStyle: (props) => ({
         fontSize: '14px',
