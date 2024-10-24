@@ -46,22 +46,27 @@ const Index = () => {
   };
 
   const handleChangeAlarm = (value) => {
-    const { time, label, isRepeat, repeatTime, repeatCategory } = value;
+    let { id, time, label, isRepeat, repeatTime, repeatCategory } = value;
+    if(!id) {
+      id = nanoid();
+    }
+    const alarmTime = new Date();
+    const [hours, minutes] = time.split(":");
+    alarmTime.setHours(hours);
+    alarmTime.setMinutes(minutes);
 
     if (currentAlarmIndex === null || currentAlarmIndex === undefined) {
-      const uuid = nanoid();
-
       setDataAlarm([
         ...dataAlarm,
-        { id: uuid, time: time, label, isRepeat, repeatTime, repeatCategory, isActive: true },
+        { id, time: alarmTime, label, isRepeat, repeatTime, repeatCategory, isActive: true },
       ]);
 
-      notifications.schedule(uuid, moment(time).format("HH"), moment(time).format("mm"))
+      notifications.schedule(id, alarmTime, isRepeat, repeatTime, repeatCategory, label)
     } else {
       setDataAlarm(
         dataAlarm.map((item, index) => {
           if (index === currentAlarmIndex) {
-            item.time = time
+            item.time = alarmTime
             item.label = label
             item.isRepeat = isRepeat
             item.repeatTime = repeatTime
@@ -70,6 +75,7 @@ const Index = () => {
           return item
         })
       );
+      notifications.update(id, alarmTime, isRepeat, repeatTime, repeatCategory, label)
     }
     setIsOpenTime(false);
     document.body.classList.remove('overlay-active');
@@ -83,6 +89,9 @@ const Index = () => {
 
   const handleDeleteAlarm = () => {
     let listAlarm = [...dataAlarm];
+    const id = listAlarm[indexDataDeleted].id;
+    notifications.cancel(id);
+
     listAlarm.splice(indexDataDeleted, 1);
     setDataAlarm(listAlarm);
     showDeleteModal(null);
@@ -104,17 +113,26 @@ const Index = () => {
         return item;
       })
     );
+    
+    if(dataAlarm[indexAlarm] && !dataAlarm[indexAlarm].isActive) {
+      const { id, time, label, isRepeat, repeatTime, repeatCategory } = dataAlarm[indexAlarm];
+      notifications.update(id, time, isRepeat, repeatTime, repeatCategory, label)
+    } else {
+      notifications.cancel(dataAlarm[indexAlarm].id)
+    }
   };
 
-  const getDayLabel = (time) => {
-    const currentDate = new Date();
-    const alarmTime = new Date();
-    const [hours, minutes] = moment(time).format("HH:mm")?.split(":");
-    alarmTime.setHours(hours);
-    alarmTime.setMinutes(minutes);
-
-    return alarmTime > currentDate ? "Today" : "Tomorrow";
+  const getDayLabel = (item, time) => {
+    if(item.isRepeat) {
+      return `${item.label && item.label + ' -'} Repeat every ${item.repeatTime} ${item.repeatCategory}`
+    } else {
+      return item.label
+    }
   };
+
+  const getColorMode = (val) => {
+    return  val === 'light' ? '0px 8px 20px -4px #e5e5e5' : 'none'
+  }
 
   return (
     <>
@@ -129,7 +147,7 @@ const Index = () => {
             px="4"
             my="1"
             borderRadius="12px"
-            sx={{ boxShadow: colorMode === 'light' ? '0px 8px 20px -4px #e5e5e5' : 'none' }}
+            sx={{ boxShadow: getColorMode(colorMode) }}
             onClick={(e) => handleTimeClick(item, index)}
           >
             <HStack justifyContent="space-between" alignItems="center">
@@ -137,11 +155,14 @@ const Index = () => {
                 <Text
                   fontSize="2rem"
                   textStyle="semi"
+                  color={!item.isActive && 'grey'}
                 >
                   {moment(item?.time)?.format("HH:mm")}
                 </Text>
-                <Text textStyle="xsmall">
-                  {getDayLabel(item?.time)}
+                <Text 
+                  textStyle="xsmall"
+                  color={!item.isActive && 'grey'}>
+                  {getDayLabel(item, item?.time)}
                 </Text>
               </VStack>
               <Switch

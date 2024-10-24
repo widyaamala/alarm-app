@@ -34,7 +34,7 @@ const Login = () => {
 
   useEffect(() => {
     if (getUser()) {
-      navigate(`/alarm`)
+      navigate(`/`)
     }
   }, [])
 
@@ -79,7 +79,7 @@ const Login = () => {
                   isClosable: true,
                   render: () => <Toast title="Successfully Login!" status="success" />,
                 })
-                navigate('/alarm')
+                navigate('/')
               }, 1500)
             }}
           >

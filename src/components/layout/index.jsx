@@ -1,28 +1,14 @@
 import { useEffect } from "react"
 import { Outlet, useLocation } from "react-router-dom"
 import { VStack, useColorModeValue } from "@chakra-ui/react"
-import { Howler } from "howler"
 import Header from "./Header"
 import Footer from "./Footer"
-import { App } from '@capacitor/app';
-import { LocalNotifications } from '@capacitor/local-notifications';
-
 
 const Layout = () => {
   const location = useLocation()
 
   useEffect(() => {
-    App.addListener('appStateChange', async ({ isActive }) => {
-      console.log('App state changed. Is active?', isActive);
-      if(isActive) {
-        const permissions = await LocalNotifications.requestPermissions();
-        if (permissions.display !== 'granted') return
-      }
-    });
     
-    return () => {
-      Howler.stop()
-    };
   }, [location])
 
   return (

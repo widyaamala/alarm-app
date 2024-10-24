@@ -20,13 +20,13 @@ const Footer = () => {
               <Tab w='100%' p='1' onClick={() => navigate(item.url)} key={index}>
                 <VStack alignItems='center' gap="0.2rem">
                   <Image
-                    src={pathname?.includes(item.url) ? icons[item?.iconActive] : icons[item?.icon] }
+                    src={footerTab[activeTab]?.url === item.url ? icons[item?.iconActive] : icons[item?.icon] }
                     h="1.3em"
                     w="1.3em"
                   />
                   <Text
                     color={
-                      pathname?.includes(item.url)
+                      footerTab[activeTab]?.url === item.url
                         ? colorMode === 'dark' ? 'white' : 'primary.light'
                         : useColorModeValue('muted.light', 'muted.dark')}
                     fontSize="12px"
