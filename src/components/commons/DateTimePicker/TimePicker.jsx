@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
-import DateTimePicker from "react-weblineindia-time-picker";
-import "./datetimepicker.css";
 import { Box, Button, HStack, Input, Select, Switch, useColorMode } from "@chakra-ui/react";
+import "./datetimepicker.css";
+import moment from 'moment'
 
 const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew, handleChange, toggle, handleDelete }) => {
+  const defaultTime = (val) => moment(val ?? new Date()).format('HH:mm');
   const { colorMode } = useColorMode()
-  const [tempTime, setTempTime] = useState(value ?? new Date());
+  const [tempTime, setTempTime] = useState(defaultTime(value));
   const [tempLabel, setTempLabel] = useState(label || "");
-  const [tempIsRepeat, setTempIsRepeat] = useState(isNew ? true : isRepeat);
+  const [tempIsRepeat, setTempIsRepeat] = useState(isNew ? false : isRepeat);
   const [tempRepeatTime, setTempRepeatTime] = useState(repeatTime || 1);
-  const [tempRepeatCategory, setTempRepeatCategory] = useState(repeatCategory || "m");
+  const [tempRepeatCategory, setTempRepeatCategory] = useState(repeatCategory || "h");
   const [repeatTimeOptions, setRepeatTimeOptions] = useState([]);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew,
   }, [tempRepeatCategory]);
 
   const handleSelect = (time) => {
-    setTempTime(time.value);
+    setTempTime(time.target.value);
   };
 
   const handleOk = () => {
@@ -39,33 +40,35 @@ const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew,
   };
 
   const handleCancel = () => {
-    setTempTime(value ?? new Date());
+    setTempTime(value ?? defaultTime);
     if (toggle) toggle();
   };
 
   return (
     <div className="overlay-picker">
       <div className="picker">
-        <DateTimePicker
-          hourFormat="12"
+        <Input
           value={tempTime}
+          disabled={tempIsRepeat}
           onChange={handleSelect}
-          timeOnly
+          type="time"
+          fontSize="3rem"
+          height="100px"
+          textAlign="center"
         />
         <HStack alignItems="center" justify="space-between" mt="6">
-          <Box fontWeight="bold" w="40%" textStyle="small">Label</Box>
+          <Box fontWeight="bold" w="40%">Label</Box>
           <Input
             w="60%"
             textAlign="right"
             placeholder="Add Label"
             variant="unstyled"
-            fontSize="0.85rem"
             value={tempLabel}
             onChange={(e) => setTempLabel(e.target.value)}
           />
         </HStack>
-        <HStack alignItems="center" justify="space-between" mt="2">
-          <Box fontWeight="bold" textStyle="small">Repeat</Box>
+        <HStack alignItems="center" justify="space-between" mt="2" mb="2">
+          <Box fontWeight="bold">Repeat</Box>
           <Switch
             ml="auto"
             id="repeat-activated"
@@ -75,11 +78,9 @@ const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew,
         </HStack>
         {tempIsRepeat && (
           <HStack alignItems="center" justifyContent="end" mb="6">
-            <HStack w="60%">
-              <Box w="50%">
+            <HStack w="70%">
+              <Box w="70%">
                 <Select
-                  variant="flushed"
-                  fontSize="0.85rem"
                   value={tempRepeatTime}
                   onChange={(e) => setTempRepeatTime(Number(e.target.value))}
                 >
@@ -91,8 +92,7 @@ const TimePicker = ({ value, label, isRepeat, repeatTime, repeatCategory, isNew,
                 </Select>
               </Box>
               <Select
-                variant="flushed"
-                fontSize="0.85rem"
+                textAlign="right"
                 onChange={(event) => setTempRepeatCategory(event.target.value)}
                 value={tempRepeatCategory}
               >

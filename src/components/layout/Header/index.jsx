@@ -3,10 +3,6 @@ import {
   Text,
   IconButton,
   Image,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   useColorModeValue
 } from "@chakra-ui/react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,12 +13,11 @@ const Header = () => {
   const icons = useIcons()
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const title = capitalizeFirstLetter(pathname.split("/")[1]);
+  const title = capitalizeFirstLetter(pathname.split("/")[1] || 'Alarm');
 
   return (
     <HStack
       px="5"
-      pt="3"
       w="100%"
       h="8vh"
       position="sticky"
@@ -34,20 +29,14 @@ const Header = () => {
       <Text textStyle="bold" fontSize="large" color={useColorModeValue('main.light', 'main.dark')}>
         {title}
       </Text>
-      <Menu isLazy>
-        <MenuButton
-          as={IconButton}
-          aria-label="Options"
-          icon={<Image src={icons.moreVert} h="1.3em" />}
-          variant="unstyled"
-          w="auto"
-          minW="0"
-        />
-        <MenuList>
-          <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
-          <MenuItem onClick={() => navigate('/setting')}>Setting</MenuItem>
-        </MenuList>
-      </Menu>
+      <Image src={useColorModeValue('logo.png', 'logo-dark.png')} h="2.5em" />
+      <IconButton
+        size="sm"
+        variant="ghost"
+        colorScheme={useColorModeValue('main.light', 'main.dark')}
+        icon={<Image src={icons.moreVert} h="1.3em" />} 
+        onClick={() => navigate('/setting')}
+      />
     </HStack>
   );
 };

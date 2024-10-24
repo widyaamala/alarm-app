@@ -47,30 +47,6 @@ const Setting = () => {
         </HStack>
         <Divider />
       </VStack>
-      <Text textStyle="bold" fontSize="14px">
-        Support
-      </Text>
-      <VStack
-        mb="3"
-        w="100%"
-        align="start"
-        p="5"
-        bg={useColorModeValue("mutedBase.light", "mutedBase.dark")}
-        borderRadius="13px"
-      >
-        <ChakraLink as={ReactRouterLink} to='/' mt="3">
-          Privacy & Security
-        </ChakraLink>
-        <Divider />
-        <ChakraLink as={ReactRouterLink} to='/' mt="3">
-          Help & FAQ
-        </ChakraLink>
-        <Divider />
-        <ChakraLink as={ReactRouterLink} to='/' mt="3">
-          About
-        </ChakraLink>
-        <Divider />
-      </VStack>
       <Button
         textStyle="semi"
         fontSize="14px"
@@ -82,7 +58,7 @@ const Setting = () => {
         mt="auto"
         onClick={() => logout.mutate()}
       >
-        Delete Account
+        Logout
       </Button>
     </VStack>
   );

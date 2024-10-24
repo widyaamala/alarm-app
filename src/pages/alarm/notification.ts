@@ -1,40 +1,62 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
+import moment from "moment";
 
 class Notifications {
-  public async schedule(id: number, hour: number, minute: number) {
+  public async schedule(id: number, time: Date, repeat: boolean, repeatTime: number, repeatCategory: any, label: any) {
     try {
-      const result = await LocalNotifications.listChannels();
-      if (result.channels.find(ch => ch.id === 'alarm') === undefined) {
-        await LocalNotifications.createChannel({
-          id: 'alarm',
-          name: 'Alarm',
-          sound: 'alarm.wav',
-          lightColor: '#f49c21',
-          importance: 5,
-          visibility: 1,
-          vibration: true,
-          lights: true
-        });
+      let alarm = time;
+      if(repeat) {
+        alarm = moment().add(repeatTime, repeatCategory).toDate();
       }
-
-      // Clear old notifications in prep for refresh (OPTIONAL)
-      const pending = await LocalNotifications.getPending();
-      if (pending.notifications.length > 0)
-        await LocalNotifications.cancel(pending);
-
       await LocalNotifications.schedule({
         notifications: [{
           title: 'Tanpa Pintu',
-          body: 'Alarm',
+          body: label,
           id: id,
           schedule: {
+            at: alarm,
+            repeats: repeat,
             allowWhileIdle: true,
-            on: { // swap this out for at or every as needed
-              hour,
-              minute
-            }
           },
-          channelId: 'alarm'
+          channelId: 'alarm',
+          autoCancel: true
+        }]
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  public async update(id: number, time: Date, repeat: boolean, repeatTime: number, repeatCategory: any, label: any) {
+    try {
+      await this.cancel(id);
+      
+      let alarm = time;
+      if(repeat) {
+        alarm = moment().add(repeatTime, repeatCategory).toDate();
+      }
+      await LocalNotifications.schedule({
+        notifications: [{
+          title: 'Tanpa Pintu',
+          body: label,
+          id: id,
+          schedule: {
+            at: alarm,
+            repeats: repeat,
+            allowWhileIdle: true,
+          },
+          channelId: 'alarm',
+          autoCancel: true
+        }]
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  public async cancel(id: number) {
+    try {
+      await LocalNotifications.cancel({
+        notifications: [{
+          id: id
         }]
       });
     } catch (error) {

@@ -11,7 +11,7 @@ export const days = [
 export const numberTypeException = ["e", "E", "+", "-", ".", ","]
 
 export const footerTab = [
-  { tab: 'Alarm', url: '/alarm', icon: "alarm", iconActive: "alarmActive" },
+  { tab: 'Alarm', url: '/', icon: "alarm", iconActive: "alarmActive" },
   { tab: 'Audio', url: '/audio', icon: "libraryMusic", iconActive: "libraryMusicActive" },
   { tab: 'Article', url: '/article', icon: "newspaper", iconActive: "newspaperActive" }
 ]

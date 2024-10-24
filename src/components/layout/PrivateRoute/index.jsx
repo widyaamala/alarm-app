@@ -1,16 +1,18 @@
-import React from "react"
-import { Outlet, Navigate } from "react-router-dom"
+import React, { Children } from "react"
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 import { getUser } from "../../../utils/User"
 
 const PrivateRoute = () => {
-  const currentUser = getUser()
+  const authenticate = getUser();
+  const location = useLocation();
 
-  if (!currentUser) {
-    return <Navigate to='/' />
-  }
-  return (
-    <Outlet />
-  )
+  return authenticate ? (
+    <Outlet/>
+  ) : (
+    <Navigate
+      to={'/login'}
+    />
+  );
 }
 
 export default PrivateRoute

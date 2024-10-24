@@ -59,11 +59,11 @@ const theme = extendTheme({
     },
     mutedBase: {
       light: '#fff',
-      dark: '#474747'
+      dark: '#222222'
     },
     background: {
       light: '#efefef',
-      dark: '#1e1e1e'
+      dark: '#000000'
     },
     muted: {
       light: '#9E9E9E',
